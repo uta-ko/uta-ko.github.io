@@ -6,7 +6,7 @@ const medias = {
 
 };
 
-const video = document.getElementById("video");
+const video_front = document.getElementById("video_front");
 
 const promise = navigator.mediaDevices.getUserMedia(medias);
 
@@ -20,7 +20,7 @@ promise.then(successCallback)
 
 function successCallback(stream) {
 
-  video.srcObject = stream;
+  video_front.srcObject = stream;
 
 };
 
