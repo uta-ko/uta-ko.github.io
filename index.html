@@ -30,5 +30,22 @@
   </p><!-- 改行 -->
   <video id="video" autoplay playsinline></video>
   <script src="index.js"></script>
+   constructor(
+    private renderer: Renderer2,  ・・・angularのレンダラーを注入
+  ) {}
+
+  onClick() {
+    this.captureData = this.draw();
+    this.stopCamera();
+    this.savePicture();
+  }
+
+  private savePicture() {
+    this.apiService.savePicture(this.captureData); ・・・サーバ送信する何か
+
+    const a = this.renderer.createElement('a') as HTMLAnchorElement;
+    a.href = this.captureData;  ・・・キャプチャしたBase64データを突っ込む
+    a.setAttribute('download', 'image.png');
+    // a.click();  ・・・タブで開いてしまうのでコメントアウト
 </body>
 </html>
