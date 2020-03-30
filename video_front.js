@@ -1,4 +1,4 @@
-const medias = {
+const medias_f = {
 
   audio: false,
 
@@ -6,9 +6,9 @@ const medias = {
 
 };
 
-const video = document.getElementById("video");
+const video_front = document.getElementById("video_front");
 
-const promise = navigator.mediaDevices.getUserMedia(medias);
+const promise = navigator.mediaDevices.getUserMedia(medias_f);
 
 
 
@@ -20,7 +20,7 @@ promise.then(successCallback)
 
 function successCallback(stream) {
 
-  video.srcObject = stream;
+  video_front.srcObject = stream;
 
 };
 
