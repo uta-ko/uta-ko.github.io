@@ -36,5 +36,3 @@ function errorCallback(err) {
 
 };
 
-© 2020 GitHub, Inc.
-Te
