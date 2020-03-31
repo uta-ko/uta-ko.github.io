@@ -1,7 +1,6 @@
-<!DOCTYPE html>
+<!-- index.html -->
 <html>
 <head>
-  <meta charset="UTF-8">
   <!-- manifest.jsonを呼び出しています -->
   <link rel="manifest" href="./manifest.json">
   <script>
@@ -10,6 +9,7 @@
       navigator.serviceWorker.register('./service-worker.js').then(function() { console.log('Service Worker Registered'); });
    }
   </script>
+  <title>Rear camera</title>
   <style>
     body {
       text-align:center;
@@ -22,26 +22,9 @@
       display: block;
     }
   </style>
-  <title>Camera Test</title>
-  <style>
-  canvas, video{
-    border: 1px solid gray;
-  }
-  body {
-    text-align:center;
-    font-size: 25px;
-    vertical-align: middle;
-  }
-  </style>
 </head>
-
 <body>
-
-<h1>HTML5カメラ</h1>
-<video id="camera" width="300" height="170"></video>
-<canvas id="picture" width="300" height="170"></canvas><br>
-
-<form>
+ <form>
   <button type="button" id="startbtn">開始</button>
   <button type="button" id="endbtn">停止</button>
   <button type="button" id="save">保存</button>
@@ -49,10 +32,16 @@
   <a herf="#" id="downloadlink" style="display:none;">Download</a>
 </form>
 
-<audio id="se" preload="auto">
-  <source src="camera-shutter1.mp3" type="audio/mp3">
-</audio>
 
-<script src="rec_mode.js"></script>
+  <a href="p.html">Front camera</a><br>
+  <a href="index.html">Rear camera</a><br>
+  <video id="camera" autoplay playsinline></video>
+  <script src="rec_mode.js"></script>
 </body>
 </html>
+
+
+
+
+
+
