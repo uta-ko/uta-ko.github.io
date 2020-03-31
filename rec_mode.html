@@ -9,7 +9,7 @@
       navigator.serviceWorker.register('./service-worker.js').then(function() { console.log('Service Worker Registered'); });
    }
   </script>
-  <title>Rear camera</title>
+  <title>Rec mode</title>
   <style>
     body {
       text-align:center;
@@ -24,12 +24,12 @@
   </style>
 </head>
 <body>
-  <h1>Rear camera</h1>
-  <button onclick="startVideo()">ビデオ開始</button>
-  <button onclick="stopVideo()">ビデオ終了</button>
-  <button onclick="snapshot()">写真撮影</button>
-
-
+  <h1>Rec mode</h1>
+  <button onclick="startVideo()">rec</button>
+  <button onclick="stopVideo()">stop</button>
+  <button onclick="snapshot()">save</button>
+  <br>
+  
   <a href="index.html">Rear camera</a><br>
   <a href="p.html">Front camera</a><br>
   <video id="video" autoplay playsinline></video>
