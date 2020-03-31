@@ -12,7 +12,8 @@ const medias = {
 
 
 window.onload = () => {
-    const video  = document.querySelector("#camera");
+    //const video  = document.querySelector("#camera");
+    const video = document.getElementById("camera");
     const promise = navigator.mediaDevices.getUserMedia(medias);
 	primise.then(successCallback)
 		.catch(errorCallback);
