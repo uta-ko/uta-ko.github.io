@@ -28,13 +28,13 @@ window.onload = () => {
     
 	
     /** カメラ設定 */
-    const constraints = {
-      audio: false,
-      video: {
-        facingMode: "user"   // フロントカメラを利用する
+    //const constraints = {
+      //audio: false,
+      //video: {
+        //facingMode: "user"   // フロントカメラを利用する
         // facingMode: { exact: "environment" }  // リアカメラを利用する場合
-      }
-    };
+      //}
+    //};
   
     /*カメラを<video>と同期*/
     //navigator.mediaDevices.getUserMedia(constraints)
