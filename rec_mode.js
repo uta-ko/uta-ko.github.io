@@ -1,5 +1,5 @@
 var recorder;
-var canvas = document.getElementById("video");
+var canvas = document.getElementById("picture");
 var cnt = 0;
 var frame_no = 0;
 var imgsrc = [];
