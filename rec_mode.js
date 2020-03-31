@@ -1,4 +1,3 @@
-
 var recorder;
 var canvas = document.getElementById("picture");
 var cnt = 0;
@@ -6,9 +5,25 @@ var frame_no = 0;
 var imgsrc = [];
 var ctx2 = canvas.getContext("2d");
 
+const medias = {
+	audio: false,
+	video: {facingMode: {exact : 'environment'}}
+};
+
+
 window.onload = () => {
     const video  = document.querySelector("#camera");
-  
+    const promise = navigator.mediaDevices.getUserMedia(medias);
+	primise.then(successCallback)
+		.catch(errorCallback);
+     function successCallback(stream) {
+          video.srcObject = stream;
+     };
+
+     function errorCallback(err) {
+  	alert(err);
+     };
+	
     /** カメラ設定 */
     const constraints = {
       audio: false,
