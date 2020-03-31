@@ -1,3 +1,4 @@
+
 <!-- index.html -->
 <html>
 <head>
@@ -24,7 +25,9 @@
   </style>
 </head>
 <body>
- <form>
+<video id="camera"></video>
+<canvas id="picture" width=video.width height=video.height></canvas><br>
+<form>
   <button type="button" id="startbtn">開始</button>
   <button type="button" id="endbtn">停止</button>
   <button type="button" id="save">保存</button>
@@ -35,7 +38,7 @@
 
   <a href="p.html">Front camera</a><br>
   <a href="index.html">Rear camera</a><br>
-  <video id="camera" autoplay playsinline></video>
+  <!--<video id="camera" autoplay playsinline></video>-->
   <script src="rec_mode.js"></script>
 </body>
 </html>
