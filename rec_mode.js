@@ -31,8 +31,6 @@ window.onload = () => {
     const constraints = {
       audio: false,
       video: {
-        width: 300,
-        height: 170,
         facingMode: "user"   // フロントカメラを利用する
         // facingMode: { exact: "environment" }  // リアカメラを利用する場合
       }
