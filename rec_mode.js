@@ -10,10 +10,7 @@ const medias = {
 	video: {facingMode: {exact : 'environment'}}
 };
 
-
-window.onload = () => {
-    //const video  = document.querySelector("#camera");
-    const video = document.getElementById("camera");
+const video = document.getElementById("camera");
     const promise = navigator.mediaDevices.getUserMedia(medias);
 	primise.then(successCallback)
 		.catch(errorCallback);
@@ -24,6 +21,11 @@ window.onload = () => {
      function errorCallback(err) {
   	alert(err);
      };
+
+
+window.onload = () => {
+    //const video  = document.querySelector("#camera");
+    
 	
     /** カメラ設定 */
     const constraints = {
@@ -37,7 +39,8 @@ window.onload = () => {
     };
   
     /*カメラを<video>と同期*/
-    navigator.mediaDevices.getUserMedia(constraints)
+    //navigator.mediaDevices.getUserMedia(constraints)
+    navigator.mediaDevices.getUserMedia(medias)
     .then( (stream) => {
       video.srcObject = stream;
       video.onloadedmetadata = (e) => {
