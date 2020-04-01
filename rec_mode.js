@@ -9,13 +9,12 @@ var ctx2 = canvas.getContext("2d");
 window.onload = () => {
 	const video  = document.querySelector("#camera");
 	
-  
     /** カメラ設定 */
     const constraints = {
       audio: false,
       video: {
-        facingMode: "user"   // フロントカメラを利用する
-        // facingMode: { exact: "environment" }  // リアカメラを利用する場合
+        //facingMode: "user"   // フロントカメラを利用する
+        facingMode: { exact: "environment" }  // リアカメラを利用する場合
       }
     };
   
