@@ -6,7 +6,7 @@ var frame_no = 0;
 var imgsrc = [];
 var ctx2 = canvas.getContext("2d");
 
-window.onload = () => {
+//window.onload = () => {
 	const video  = document.querySelector("#camera");
 	let w = video.width ;
 	let h = video.height ;
@@ -76,4 +76,4 @@ window.onload = () => {
       
     })
   
-  };
+//  };
