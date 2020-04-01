@@ -1,4 +1,3 @@
-
 var recorder;
 var canvas = document.getElementById("picture");
 var cnt = 0;
@@ -45,7 +44,7 @@ window.onload = () => {
   
     // 開始ボタン
     document.getElementById("startbtn").addEventListener("click",() =>{
-      var stream = canvas.captureStream();
+      /*var stream = canvas.captureStream();
 	    //ストリームからMediaRecorderを生成
 	    recorder = new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp9'});
 	    //ダウンロード用のリンクを準備
@@ -59,7 +58,7 @@ window.onload = () => {
       anchor.style.display = 'block';
     }
       //録画開始
-      recorder.start();
+      recorder.start();*/
       timer1 = setInterval(getImage,33);
       
 
