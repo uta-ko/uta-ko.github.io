@@ -6,7 +6,7 @@ var frame_no = 0;
 var imgsrc = [];
 var ctx2 = canvas.getContext("2d");
 
-//window.onload = () => {
+window.onload = () => {
 	const video  = document.querySelector("#camera");
 	
   
@@ -14,8 +14,6 @@ var ctx2 = canvas.getContext("2d");
     const constraints = {
       audio: false,
       video: {
-        //width: 300,
-        //height: 170,
         facingMode: "user"   // フロントカメラを利用する
         // facingMode: { exact: "environment" }  // リアカメラを利用する場合
       }
@@ -77,4 +75,4 @@ var ctx2 = canvas.getContext("2d");
       
     })
   
-//  };
+  };
