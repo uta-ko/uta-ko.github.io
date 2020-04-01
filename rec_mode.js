@@ -38,7 +38,7 @@ window.onload = () => {
     let getImage = function(){
         ctx2.drawImage(video,0,0);
         //imgsrc.push(ctx2);
-        cnt ++
+        //cnt ++
         
         
     };
