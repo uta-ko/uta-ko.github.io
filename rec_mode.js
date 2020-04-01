@@ -36,7 +36,7 @@ window.onload = () => {
   
     let timer1;
     let getImage = function(){
-        ctx2.drawImage(video,0,0,canvas.width, canvas.height);
+        ctx2.drawImage(video,0,0);
         imgsrc.push(ctx2);
         console.log("frameno");
         cnt ++
