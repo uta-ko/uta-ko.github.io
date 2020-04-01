@@ -8,10 +8,7 @@ var ctx2 = canvas.getContext("2d");
 
 //window.onload = () => {
 	const video  = document.querySelector("#camera");
-	let w = video.width ;
-	let h = video.height ;
-	canvas.width = w ;
-	canvas.height = h ;
+	
   
     /** カメラ設定 */
     const constraints = {
@@ -27,9 +24,13 @@ var ctx2 = canvas.getContext("2d");
     /*カメラを<video>と同期*/
     navigator.mediaDevices.getUserMedia(constraints)
     .then( (stream) => {
-      video.srcObject = stream;
-      video.onloadedmetadata = (e) => {
-        video.play();
+	video.srcObject = stream;
+	video.onloadedmetadata = (e) => {
+     	video.play();
+	let w = video.offsetWidth ;
+	let h = video.offsetHeight ;
+	canvas.width = w ;
+	canvas.height = h ;
       };
     })
     .catch( (err) => {
