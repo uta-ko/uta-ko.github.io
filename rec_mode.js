@@ -47,7 +47,7 @@ window.onload = () => {
 	ctx2.drawImage(video,0,0);
       var stream = canvas.captureStream();
 	    //ストリームからMediaRecorderを生成
-	    recorder = new MediaRecorder(stream);//,{mimeType:'video/mp4'});
+	    recorder = new MediaRecorder(stream,{mimeType:'video/mp4'});
 	    //ダウンロード用のリンクを準備
 	    var anchor = document.getElementById('downloadlink');
     	//録画終了時に動画ファイルのダウンロードリンクを生成する処理
