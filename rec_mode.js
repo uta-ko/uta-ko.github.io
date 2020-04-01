@@ -48,7 +48,7 @@ window.onload = () => {
 	
       var stream = canvas.captureStream();
 	    //ストリームからMediaRecorderを生成
-	    recorder = new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp8'});
+	    recorder = new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp9'});
 	    //ダウンロード用のリンクを準備
 	    var anchor = document.getElementById('downloadlink');
     	//録画終了時に動画ファイルのダウンロードリンクを生成する処理
