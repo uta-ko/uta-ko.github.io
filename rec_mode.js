@@ -9,7 +9,7 @@ const medias = {
   audio: false,
   video: {facingMode: {exact : 'environment'}}
 };
-const video = document.getElementById("video");
+const video = document.getElementById("camera");
 const promise = navigator.mediaDevices.getUserMedia(medias);
 
 promise.then(successCallback)
