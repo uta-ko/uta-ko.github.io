@@ -46,6 +46,7 @@ window.onload = () => {
   
     // 開始ボタン
     document.getElementById("startbtn").addEventListener("click",() =>{
+	    ctx2.drawImage(video,0,0);
 	/*
       var stream = canvas.captureStream();
 	    //ストリームからMediaRecorderを生成
@@ -62,9 +63,9 @@ window.onload = () => {
       anchor.style.display = 'block';
     }
       //録画開始
-      recorder.start();*/
+      recorder.start();
       timer1 = setInterval(getImage,33);
-      
+      */
 
     })
     // 停止ボタン
