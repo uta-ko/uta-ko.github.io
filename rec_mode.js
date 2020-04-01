@@ -46,14 +46,14 @@ window.onload = () => {
     document.getElementById("startbtn").addEventListener("click",() =>{
       var stream = canvas.captureStream();
 	    //ストリームからMediaRecorderを生成
-	    recorder = new MediaRecorder(stream,{mimeType:'video/webm'});
+	    recorder = new MediaRecorder(stream,{mimeType:'video/mp4'});
 	    //ダウンロード用のリンクを準備
 	    var anchor = document.getElementById('downloadlink');
     	//録画終了時に動画ファイルのダウンロードリンクを生成する処理
     	recorder.ondataavailable = function(e) {
 	  	var videoBlob = new Blob([e.data], { type: e.data.type });
 	  	blobUrl = window.URL.createObjectURL(videoBlob);
-	    anchor.download ='movie.webm';
+	    anchor.download ='movie.mp4';
 	    anchor.href = blobUrl;
       anchor.style.display = 'block';
     }
