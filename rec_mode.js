@@ -7,7 +7,11 @@ var imgsrc = [];
 var ctx2 = canvas.getContext("2d");
 
 window.onload = () => {
-    const video  = document.querySelector("#camera");
+	const video  = document.querySelector("#camera");
+	let w = video.width ;
+	let h = video.height ;
+	canvas.width = w ;
+	canvas.height = h ;
   
     /** カメラ設定 */
     const constraints = {
