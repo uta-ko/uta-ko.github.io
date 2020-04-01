@@ -49,7 +49,7 @@ window.onload = () => {
 
       var stream = canvas.captureStream();
 	    //ストリームからMediaRecorderを生成
-	    recorder = new MediaRecorder(stream,{mimeType:'video/mp4;}); 
+	    recorder = new MediaRecorder(stream,{mimeType:'video/mp4;codecs=vp8'}); 
 						 //video/webm;codecs=vp8'});
 	    //ダウンロード用のリンクを準備
 	    var anchor = document.getElementById('downloadlink');
