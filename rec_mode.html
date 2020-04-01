@@ -25,17 +25,22 @@
 </head>
 <body>
   <h1>Rec mode</h1>
-  <button onclick="startVideo()">rec</button>
-  <button onclick="stopVideo()">stop</button>
-  <button onclick="snapshot()">save</button>
+<video id="camera" width="300" height="170"></video>
+<canvas id="picture" width="300" height="170"></canvas><br>
+
+<form>
+  <button type="button" id="startbtn">開始</button>
+  <button type="button" id="endbtn">停止</button>
+  <button type="button" id="save">保存</button>
   <br>
-  
-  <a href="index.html">Rear camera</a><br>
-  <a href="p.html">Front camera</a><br>
-  <!--<video id="video" autoplay playsinline></video>
-  <canvas id="picture" ></canvas>-->
-  <video id="camera" width="300" height="170" autoplay playsinline></video>
-  <canvas id="picture" width="300" height="170"></canvas><br>
-  <script src="rec_mode.js"></script>
+  <a herf="#" id="downloadlink" style="display:none;">Download</a>
+</form>
+
+<audio id="se" preload="auto">
+  <source src="camera-shutter1.mp3" type="audio/mp3">
+</audio>
+
+<script src="videoappend.js"></script>
 </body>
 </html>
+
