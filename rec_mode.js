@@ -47,7 +47,6 @@ window.onload = () => {
     document.getElementById("startbtn").addEventListener("click",() =>{
 	
       var stream = canvas.captureStream();
-	    alert("こんにちは");
 	    //ストリームからMediaRecorderを生成
 	    recorder = new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp9'});
 	    //ダウンロード用のリンクを準備
