@@ -45,9 +45,9 @@ function predict(){
         //var tensor = tf.browser.fromPixels(imgdata).resizeNearestNeighbor([16, 16]).toFloat();
         var fp = tf.fromPixels(imgdata);
         var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
-        //var offset = tf.scalar(255);
-        //var tensor_image = tensor.div(offset).expandDims();
-        let prediction = await model.predict(tensor).data();
+        var offset = tf.scalar(255);
+        var tensor_image = tensor.div(offset).expandDims();
+        let prediction = await model.predict(tensor_image).data();
         return prediction;
        }
 
