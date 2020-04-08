@@ -32,7 +32,14 @@ function crop_img(){
 
 function getAccuracyScores() {
 	var score = tf.tidy(() => {
-		
+        async function run(){
+            // load model
+            const path = "https://uta-ko.github.io/model.json"
+            const model = await tf.loadModel(path);
+           }
+           
+           run();
+        
 		var fp = tf.fromPixels(imgdata);
         var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
         var offset = tf.scalar(255);
@@ -45,13 +52,7 @@ function getAccuracyScores() {
 
 
 function predict(){
-       async function run(){
-        // load model
-        const path = "https://uta-ko.github.io/model.json"
-        const model = await tf.loadModel(path);
-       }
        
-       run();
 
     var accuracyScores = getAccuracyScores();
 	const accuraylists = accuracyScores.data();
