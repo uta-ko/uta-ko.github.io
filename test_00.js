@@ -66,7 +66,8 @@ function predict(){
 		}
 		el.innerText = e[index];
 		index++;
-	  });
+      });
+      console.log(index);
 	});
 
 
