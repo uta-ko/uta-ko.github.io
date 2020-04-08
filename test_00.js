@@ -29,13 +29,31 @@ function crop_img(){
 }
 
 function predict(){
-    const path = 'https://uta-ko.github.io/model.json';//'model.json';
+    /*const path = 'https://uta-ko.github.io/model.json';//'model.json';
     //const model= tf.loadModel(path);
     async function load_model() {   
         var model = await tf.loadModel(path);
-        
+        console.log(model);
+        return model;
         }
     
-    console.log(model.predict(imagedata));
+    //console.log(model.predict(imagedata));
+    */
+    async function run(){
+        // load model
+        const path = "https://uta-ko.github.io/model.json"
+        const model = await tf.loadModel(path);
+       
+        // predict
+        y_pred = await model.predict(imagedata);
+        y_pred.print();
+       
+        // convert to array
+        const values = await y_pred.data();
+        const arr = await Array.from(values);
+        console.log(arr);
+       }
+       
+       run();
 
 }
