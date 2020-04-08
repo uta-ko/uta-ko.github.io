@@ -63,8 +63,9 @@ function predict(){
         const model = await tf.loadModel(path);
        
         // predict
-        var tensor = tf.browser.fromPixels(imgdata).resizeNearestNeighbor([16, 16]).toFloat();
-		var offset = tf.scalar(255);
+        //var tensor = tf.browser.fromPixels(imgdata).resizeNearestNeighbor([16, 16]).toFloat();
+        var tensor = imgdata.resizeNearestNeighbor([16, 16]).toFloat();
+        var offset = tf.scalar(255);
 		var tensor_iamge = tensor.div(offset).expandDims();
 		return model.predict(tensor_iamge);
        }
