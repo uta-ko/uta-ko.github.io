@@ -26,6 +26,7 @@ function crop_img(){
     ctx2.drawImage( canvas,
         300, 300, 80, 80, 0, 0, 80, 80);
     imgdata = ctx2.getImageData(0,0,80,80);
+
 }
 
 function predict(){
@@ -38,7 +39,7 @@ function predict(){
         }
     
     //console.log(model.predict(imagedata));
-    */
+    
     async function run(){
         // load model
         const path = "https://uta-ko.github.io/model.json"
@@ -54,6 +55,23 @@ function predict(){
         console.log(arr);
        }
        
+       run();*/
+
+       async function run(){
+        // load model
+        const path = "https://uta-ko.github.io/model.json"
+        const model = await tf.loadModel(path);
+       
+        // predict
+        var tensor = tf.browser.fromPixels(imgdata).resizeNearestNeighbor([16, 16]).toFloat();
+		var offset = tf.scalar(255);
+		var tensor_iamge = tensor.div(offset).expandDims();
+		return model.predict(tensor_iamge);
+       }
+       
        run();
 
+
 }
+
+        
