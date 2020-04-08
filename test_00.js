@@ -1,6 +1,7 @@
 
 const canvas = document.getElementById("canvas1");
 const canvas2 = document.getElementById('canvas2');
+const CLASSES = {0:'P', 1:'J', 2:'C'}
 let imagePath = "j_00.jpg";
 var imgdata;
 draw(canvas,imagePath);
@@ -29,51 +30,44 @@ function crop_img(){
 
 }
 
-function predict(){
-    /*const path = 'https://uta-ko.github.io/model.json';//'model.json';
-    //const model= tf.loadModel(path);
-    async function load_model() {   
-        var model = await tf.loadModel(path);
-        console.log(model);
-        return model;
-        }
-    
-    //console.log(model.predict(imagedata));
-    
-    async function run(){
-        // load model
-        const path = "https://uta-ko.github.io/model.json"
-        const model = await tf.loadModel(path);
-       
-        // predict
-        y_pred = await model.predict(imgdata);
-        y_pred.print();
-       
-        // convert to array
-        const values = await y_pred.data();
-        const arr = await Array.from(values);
-        console.log(arr);
-       }
-       
-       run();*/
+function getAccuracyScores() {
+	var score = tf.tidy(() => {
+		
+		var fp = tf.fromPixels(imgdata);
+        var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
+        var offset = tf.scalar(255);
+        var tensor_image = tensor.div(offset).expandDims();
+		return model.predict(tensor_image);
+	  });
 
+	return score;
+}
+
+
+function predict(){
        async function run(){
         // load model
         const path = "https://uta-ko.github.io/model.json"
         const model = await tf.loadModel(path);
-       
-        // predict
-        //var tensor = tf.browser.fromPixels(imgdata).resizeNearestNeighbor([16, 16]).toFloat();
-        var fp = tf.fromPixels(imgdata);
-        var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
-        var offset = tf.scalar(255);
-        var tensor_image = tensor.div(offset).expandDims();
-        console.log(tensor_image);
-		return model.predict(tensor_image);
        }
        
        run();
 
+    var accuracyScores = getAccuracyScores();
+	const accuraylists = accuracyScores.data();
+	var index = 0
+	accuraylists.then(function(e){
+		const elements = document.querySelectorAll(".accuracy");
+		elements.forEach(el => {
+    el.parentNode.classList.remove('is-selected');
+    const rowIndex = Number(el.dataset.rowIndex);
+    if (index===rowIndex){
+			el.parentNode.classList.add('is-selected');
+		}
+		el.innerText = e[index];
+		index++;
+	  });
+	});
 
 }
 
