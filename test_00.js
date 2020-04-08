@@ -13,6 +13,8 @@ async function loadModel(){
     model = await tf.loadModel(path);
 }
 
+loadModel();
+
 function draw(canvas,imagePath){
     console.log("draw");
     const image = new Image();
@@ -48,8 +50,6 @@ function predict(){
         let prediction = await model.predict(tensor).data();
         return prediction;
        }
-       
-       run();
 
     var accuracyScores = run();
 	const accuraylists = accuracyScores.data();
