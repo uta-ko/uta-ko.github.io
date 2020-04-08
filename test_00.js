@@ -69,7 +69,7 @@ function predict(){
         var offset = tf.scalar(255);
         var tensor_image = tensor.div(offset).expandDims();
         console.log(tensor_image);
-		return model.predict(tensor_iamge);
+		return model.predict(tensor_image);
        }
        
        run();
