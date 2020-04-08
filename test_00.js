@@ -7,7 +7,7 @@ var imgdata;
 draw(canvas,imagePath);
 
 let model ;
-asnyc function loadModel(){
+async function loadModel(){
 
     const path = "https://uta-ko.github.io/model.json"
     model = await tf.loadModel(path);
