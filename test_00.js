@@ -46,9 +46,9 @@ function predict(){
 		return model.predict(tensor_image);
        }
        
-       //run();
+       run();
 
-    var accuracyScores = model.predict(tensor_image);
+    var accuracyScores = run();
 	const accuraylists = accuracyScores.data();
 	var index = 0
 	accuraylists.then(function(e){
