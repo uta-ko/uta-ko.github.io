@@ -1,8 +1,7 @@
 
 const canvas = document.getElementById("canvas1");
 const canvas2 = document.getElementById('canvas2');
-//let imagePath = "j_00.jpg";
-let imagePath = "https://github.com/uta-ko/uta-ko.github.io.wiki.git"
+let imagePath = "j_00.jpg";
 draw(canvas,imagePath);
 
 function draw(canvas,imagePath){
