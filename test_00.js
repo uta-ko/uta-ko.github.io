@@ -30,32 +30,25 @@ function crop_img(){
 
 }
 
-function getAccuracyScores() {
-	var score = tf.tidy(() => {
-        async function run(){
-            // load model
-            const path = "https://uta-ko.github.io/model.json"
-             model = await tf.loadModel(path);
-            }
-           
-           run();
-        
+function predict(){
+       async function run(){
+        // load model
+        const path = "https://uta-ko.github.io/model.json"
+        const model = await tf.loadModel(path);
+       
+        // predict
+        //var tensor = tf.browser.fromPixels(imgdata).resizeNearestNeighbor([16, 16]).toFloat();
         var fp = tf.fromPixels(imgdata);
         var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
         var offset = tf.scalar(255);
         var tensor_image = tensor.div(offset).expandDims();
-        return model.predict(tensor_image);
-              
-	  });
-
-	return score;
-}
-
-
-function predict(){
+        console.log(tensor_image);
+		return model.predict(tensor_image);
+       }
        
+       //run();
 
-    var accuracyScores = getAccuracyScores();
+       var accuracyScores = run();
 	const accuraylists = accuracyScores.data();
 	var index = 0
 	accuraylists.then(function(e){
@@ -70,6 +63,7 @@ function predict(){
 		index++;
 	  });
 	});
+
 
 }
 
