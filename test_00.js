@@ -32,7 +32,8 @@ function predict(){
     const path = 'https://uta-ko.github.io/model.json';//'model.json';
     //const model= tf.loadModel(path);
     async function load_model() {   
-        const model = await tf.loadModel(path);
+        var model = await tf.loadModel(path);
+        return model;
         }
     
     console.log(model.predict(imagedata));
