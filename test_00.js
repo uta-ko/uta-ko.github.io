@@ -6,6 +6,13 @@ let imagePath = "j_00.jpg";
 var imgdata;
 draw(canvas,imagePath);
 
+let model ;
+asnyc function loadModel(){
+
+    const path = "https://uta-ko.github.io/model.json"
+    model = await tf.loadModel(path);
+}
+
 function draw(canvas,imagePath){
     console.log("draw");
     const image = new Image();
@@ -32,10 +39,6 @@ function crop_img(){
 
 function predict(){
        async function run(){
-        // load model
-        const path = "https://uta-ko.github.io/model.json"
-        model = await tf.loadModel(path);
-       
         // predict
         //var tensor = tf.browser.fromPixels(imgdata).resizeNearestNeighbor([16, 16]).toFloat();
         var fp = tf.fromPixels(imgdata);
