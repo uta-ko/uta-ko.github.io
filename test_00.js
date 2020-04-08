@@ -33,8 +33,7 @@ function predict(){
     //const model= tf.loadModel(path);
     async function load_model() {   
         var model = await tf.loadModel(path);
-        console.log(model);
-        return model;
+        
         }
     
     console.log(model.predict(imagedata));
