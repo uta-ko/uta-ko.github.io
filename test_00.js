@@ -28,7 +28,7 @@ function crop_img(){
 
 function predict(){
     const path = 'http://uta-ko.github.io/model.json';//'model.json';
-    const model = tf.loadLayersModel(path);
+    const model = tf.loadModel(path);
     const xs = canvas2;
     y_pred = Array.from(values);
     y_pred.print();
