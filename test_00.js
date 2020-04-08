@@ -34,7 +34,7 @@ function predict(){
        async function run(){
         // load model
         const path = "https://uta-ko.github.io/model.json"
-        const model = await tf.loadModel(path);
+        model = await tf.loadModel(path);
        
         // predict
         //var tensor = tf.browser.fromPixels(imgdata).resizeNearestNeighbor([16, 16]).toFloat();
