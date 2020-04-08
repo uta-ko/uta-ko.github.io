@@ -30,9 +30,9 @@ function crop_img(){
 
 function predict(){
     const path = 'https://uta-ko.github.io/model.json';//'model.json';
-    const model; //= tf.loadModel(path);
+    //const model= tf.loadModel(path);
     async function load_model() {   
-        model = await tf.loadModel(path);
+        const model = await tf.loadModel(path);
         }
     
     console.log(model.predict(imagedata));
