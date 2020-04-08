@@ -54,7 +54,7 @@ function predict(){
        }
 
     var accuracyScores = run();
-	const accuraylists = accuracyScores.data();
+	const accuraylists = accuracyScores
 	var index = 0
 	accuraylists.then(function(e){
 		const elements = document.querySelectorAll(".accuracy");
