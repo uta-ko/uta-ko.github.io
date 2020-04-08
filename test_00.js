@@ -45,7 +45,7 @@ function predict(){
         const model = await tf.loadModel(path);
        
         // predict
-        y_pred = await model.predict(imagedata);
+        y_pred = await model.predict(imgdata);
         y_pred.print();
        
         // convert to array
