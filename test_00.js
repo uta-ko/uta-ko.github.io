@@ -45,7 +45,7 @@ function predict(){
         var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
         var offset = tf.scalar(255);
         var tensor_image = tensor.div(offset).expandDims();
-        let prediction = await model.predict(tensor_image).data();
+        let prediction = await model.predict(tensor).data();
         return prediction;
        }
        
