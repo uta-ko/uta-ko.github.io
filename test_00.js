@@ -48,7 +48,7 @@ function predict(){
        
        //run();
 
-       var accuracyScores = run();
+    var accuracyScores = run();
 	const accuraylists = accuracyScores.data();
 	var index = 0
 	accuraylists.then(function(e){
