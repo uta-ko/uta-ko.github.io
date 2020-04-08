@@ -35,16 +35,17 @@ function getAccuracyScores() {
         async function run(){
             // load model
             const path = "https://uta-ko.github.io/model.json"
-            const model = await tf.loadModel(path);
-            var fp = tf.fromPixels(imgdata);
-            var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
-            var offset = tf.scalar(255);
-            var tensor_image = tensor.div(offset).expandDims();
-		    return model.predict(tensor_image);
-           }
+             model = await tf.loadModel(path);
+            }
            
            run();
         
+        var fp = tf.fromPixels(imgdata);
+        var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
+        var offset = tf.scalar(255);
+        var tensor_image = tensor.div(offset).expandDims();
+        return model.predict(tensor_image);
+              
 	  });
 
 	return score;
