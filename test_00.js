@@ -4,6 +4,7 @@ const canvas2 = document.getElementById('canvas2');
 const CLASSES = {0:'P', 1:'J', 2:'C'}
 let imagePath = "j_00.jpg";
 var imgdata;
+var text;
 draw(canvas,imagePath);
 
 let model ;
@@ -45,6 +46,7 @@ function predict(){
         // predict
         //var tensor = tf.browser.fromPixels(imgdata).resizeNearestNeighbor([16, 16]).toFloat();
         var array = [];
+        
         var fp = tf.fromPixels(imgdata);
         var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
         var offset = tf.scalar(255);
@@ -63,7 +65,7 @@ function predict(){
                 
                     results.forEach(function(p){
                         console.log(p.className,p.probability.toFixed(6));
-                        document.write(p.className,p.probability.toFixed(6));
+                        document.write(p.className,p.probability.toFixed(6)+"/n");
                     });  
         
        }
