@@ -52,7 +52,7 @@ function predict(){
         array.push(tensor_image)
         let prediction = await model.predict(array);
         prediction.print();
-        var result = prediction.print().indexOf(Math.max.apply(null,prediction));
+        var result = prediction.print().indexOf(Math.max.apply(null,prediction.print()));
         console.log(CLASSES[result]);
 
         return prediction;
