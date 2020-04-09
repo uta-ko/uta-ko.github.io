@@ -51,7 +51,18 @@ function predict(){
         var tensor_image = tensor.div(offset).expandDims();
         array.push(tensor_image)
         let prediction = await model.predict(array);
-        let results = Array.from(prediction.data([0]));   
+        let results = Array.from(prediction).map(function(p,i){
+            return {
+                probability: p,
+                className: CLASSES[i]
+            };
+            }).sort(function(a,b){
+                return b.probability-a.probability;
+            }).slice(0,5);
+         
+            results.forEach(function(p){
+                console.log(p.className,p.probability.toFixed(6))
+            });  
 
         prediction.print();
         console.log(results);
