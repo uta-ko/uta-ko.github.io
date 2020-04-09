@@ -51,7 +51,8 @@ function predict(){
         var tensor_image = tensor.div(offset).expandDims();
         array.push(tensor_image)
         let prediction = await model.predict(array);
-        prediction([0],[0],[0]).print();
+        prediction.print();
+        console.log(prediction);
         return prediction;
        }
     run();
