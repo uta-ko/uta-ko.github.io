@@ -63,10 +63,7 @@ function predict(){
             results.forEach(function(p){
                 console.log(p.className,p.probability.toFixed(6))
             });  
-
-        prediction.print();
-        console.log(results);
-        return prediction;
+        
        }
     run();
     
