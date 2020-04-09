@@ -11,6 +11,7 @@ async function loadModel(){
 
     const path = "https://uta-ko.github.io/model.json"
     model = await tf.loadModel(path);
+    model.summary();
 }
 
 loadModel();
@@ -50,6 +51,7 @@ function predict(){
         var tensor_image = tensor.div(offset).expandDims();
         array.push(tensor_image)
         let prediction = await model.predict(array);
+
         return prediction;
        }
 
