@@ -2,7 +2,7 @@
 const canvas = document.getElementById("canvas1");
 const canvas2 = document.getElementById('canvas2');
 const CLASSES = {0:'P', 1:'J', 2:'C'}
-let imagePath = "j_00.jpg";
+let imagePath = "p_00.jpg";
 var imgdata;
 draw(canvas,imagePath);
 
