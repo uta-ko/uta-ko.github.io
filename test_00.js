@@ -2,7 +2,7 @@
 const canvas = document.getElementById("canvas1");
 const canvas2 = document.getElementById('canvas2');
 const CLASSES = {0:'P', 1:'J', 2:'C'}
-let imagePath = "p_00.jpg";
+let imagePath = "j_00.jpg";
 var imgdata;
 draw(canvas,imagePath);
 
@@ -54,28 +54,8 @@ function predict(){
         prediction.print();
         return prediction;
        }
-
-    var accuracyScores = run();
-    const accuraylists = accuracyScores
-    //console.log('accuracyScores'+accuracyScores);
-	console.log(accuracyScores);
-	var index = 0
-	accuraylists.then(function(e){
-        const elements = document.querySelectorAll(".accuracy");
-        //console.log('elements'+elements);
-		console.log(elements);
-		elements.forEach(el => {
-    el.parentNode.classList.remove('is-selected');
-    const rowIndex = Number(el.dataset.rowIndex);
-    if (index===rowIndex){
-			el.parentNode.classList.add('is-selected');
-		}
-		el.innerText = e[index];
-		index++;
-      });
-      console.log('index'+index);
-	});
-
+    run();
+    
 
 }
 
