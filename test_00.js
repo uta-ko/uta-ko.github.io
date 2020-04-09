@@ -55,11 +55,13 @@ function predict(){
 
     var accuracyScores = run();
     const accuraylists = accuracyScores
-    console.log('accuracyScores'+accuracyScores);
+    //console.log('accuracyScores'+accuracyScores);
+	console.log(accuracyScores);
 	var index = 0
 	accuraylists.then(function(e){
         const elements = document.querySelectorAll(".accuracy");
-        console.log('elements'+elements);
+        //console.log('elements'+elements);
+		console.log(elements);
 		elements.forEach(el => {
     el.parentNode.classList.remove('is-selected');
     const rowIndex = Number(el.dataset.rowIndex);
