@@ -50,7 +50,7 @@ function predict(){
         var offset = tf.scalar(255);
         var tensor_image = tensor.div(offset).expandDims();
         array.push(tensor_image)
-        let prediction = await model.predict(array);
+        let prediction = await model.predict(array).data();
         let results = Array.from(prediction).map(function(p,i){
             return {
                 probability: p,
