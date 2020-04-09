@@ -2,7 +2,7 @@
 const canvas = document.getElementById("canvas1");
 const canvas2 = document.getElementById('canvas2');
 const CLASSES = {0:'P', 1:'J', 2:'C'}
-let imagePath = "p_00.jpg";
+let imagePath = "j_00.jpg";
 var imgdata;
 draw(canvas,imagePath);
 
@@ -50,7 +50,6 @@ function predict(){
         var tensor_image = tensor.div(offset).expandDims();
         array.push(tensor_image)
         let prediction = await model.predict(array);
-	console.log(prediction);      
         return prediction;
        }
 
@@ -58,7 +57,8 @@ function predict(){
 	const accuraylists = accuracyScores
 	var index = 0
 	accuraylists.then(function(e){
-		const elements = document.querySelectorAll(".accuracy");
+        const elements = document.querySelectorAll(".accuracy");
+        console.log('elements'+elements);
 		elements.forEach(el => {
     el.parentNode.classList.remove('is-selected');
     const rowIndex = Number(el.dataset.rowIndex);
@@ -68,7 +68,7 @@ function predict(){
 		el.innerText = e[index];
 		index++;
       });
-      console.log(index);
+      console.log('index'+index);
 	});
 
 
