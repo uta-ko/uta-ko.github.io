@@ -2,7 +2,7 @@
 const canvas = document.getElementById("canvas1");
 const canvas2 = document.getElementById('canvas2');
 const CLASSES = {0:'P', 1:'J', 2:'C'}
-let imagePath = "j_00.jpg";
+let imagePath = "p_00.jpg";
 var imgdata;
 draw(canvas,imagePath);
 
@@ -52,6 +52,9 @@ function predict(){
         array.push(tensor_image)
         let prediction = await model.predict(array);
         prediction.print();
+        var result = prediction.indexOf(Math.max.apply(null,prediction));
+        console.log(CLASSES[result]);
+
         return prediction;
        }
     run();
