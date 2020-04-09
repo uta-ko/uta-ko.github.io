@@ -58,7 +58,7 @@ function predict(){
 	var index = 0
 	accuraylists.then(function(e){
         const elements = document.querySelectorAll(".accuracy");
-        console.log('elements'+elements);
+        console.log('elements'+elements[1]);
 		elements.forEach(el => {
     el.parentNode.classList.remove('is-selected');
     const rowIndex = Number(el.dataset.rowIndex);
