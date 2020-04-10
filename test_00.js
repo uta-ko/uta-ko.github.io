@@ -65,9 +65,9 @@ function test(){
         //     //キャンバスに画像をセット
              var context = canvas.getContext('2d');
 
-             canvas.width = canvas1.width;
-             canvas.height = canvas1.height;
-             context.drawImage(canvas1, 0, 0);
+             canvas.width = canvas2.width;
+             canvas.height = canvas2.height;
+             context.drawImage(canvas2, 0, 0);
         //     console.log(canvas);
 
             //フィルター処理
