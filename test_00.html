@@ -10,17 +10,20 @@
     <body>
         <!--<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.8.0"></script>-->
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.5"></script>
-        <h1>test</h1><canvas id='canvas2' width="80" height="80"></canvas>
+        <h1>predict test</h1>
+        <canvas id='canvas2' width="80" height="80"></canvas>
         <!--<img src='./images/j_00.jpg'>-->
         <button id='crop_btn' onclick="crop_img()">crop</button>
-        <button id= 'p_btn' onclick='predict()'>predict</button><br>
-        <div id = 'first'></div>
-        <div id = 'second'></div>
-        <div id = 'third'></div>
+        <button id='p_btn' onclick='predict()'>predict</button>
+        <!--<button id='res_btn' onclick='filtertest()'>result</button>--> <br>
+        <div id = 'first'>P :</div>
+        <div id = 'second'>J :</div>
+        <div id = 'third'>C :</div>
         
         <br>
         <canvas id='canvas1'></canvas>
-        
+        <div id="output" style="border: none; margin: 30px; background-color: #f8f8f8; min-height: 40px;"></div>
         <script src='test_00.js'></script>
+        <!--<script src='filter_test.js'></script>-->
     </body>
 </html>
