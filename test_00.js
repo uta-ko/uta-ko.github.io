@@ -58,6 +58,12 @@ async function predict(){
     var score_j = 0;
     var score_c = 0;
     var counter = 0;
+    //結果出力用キャンバスに画像をセット
+    canvas = document.createElement("canvas")
+    context = canvas.getContext('2d');
+
+    canvas.width = res_size;
+    canvas.height = res_size;
     
     for ( var i=0; i<forx; i++){
         posx = i*(res_size);
@@ -65,32 +71,25 @@ async function predict(){
             posy = j*(res_size);
             centerx = posx + posx/2;
             centery = posy + posy/2;
-            
-            //結果出力用キャンバスに画像をセット
-            canvas = document.createElement("canvas")
-            context = canvas.getContext('2d');
-
-            canvas.width = res_size;
-            canvas.height = res_size;
-            //フィルター処理
+        
+            //結果画像の生成
             srcData = ctx.getImageData(posx, posy, size, size);
             dstData = context.createImageData(res_size, res_size);
             src = srcData.data;
             dst = dstData.data;
-            var bright = 0;
-
+        
+            var judge = 0; 
             // 輝度値の取得
             for (var k = 0; k < size; k++) {
                 for (var l = 0; l < size; l++) {
                     var idx = (l + k * size) * 4;
-                    var judge = 0;            
                     judge += src[idx];
                     judge += src[idx+2];
                     judge += src[idx+1];
-                    bright += judge/3
                 }
             }
-            bright = bright/(size*size);
+            var bright = judge/(size*size*3);
+            
             //輝度値126以下の時 条件分岐
             if (bright > 126){
                 var array = [];
