@@ -3,12 +3,13 @@ var canvas2 = document.getElementById('canvas2');
 const CLASSES = {0:'P', 1:'J', 2:'C'};
 var ctx;
 var ctx2;
-let imagePath = "j_00.jpg";
+let imagePath = "p_00.jpg";
 var text;
 var size = 80;
 var res_size = 40;
 var prediction;
 let model ;
+
 
 draw(canvas,canvas2,imagePath);
 
@@ -117,6 +118,7 @@ async function predict(){
     }
 
     var end = Date.now();
+    document.getElementById('time').innerHTML = 'time :' +((end-start)/1000)+ 'sec.';
     console.log('処理時間 : '+ ((end-start)/1000)+ 'sec.')
         
     }
