@@ -10,38 +10,26 @@ var res_size = 40;
 var prediction;
 let model ;
 
-
-draw(canvas,canvas2,imagePath);
-
+// ここで画像の読み込みとmodelの読み込みも済ませてしまう
+window.onload = (ev)=>{
+    const image = new Image();
+    image.addEventListener('load',()=>{
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    canvas2.width = image.naturalWidth;
+    canvas2.height = image.naturalHeight;
+    ctx = canvas.getContext("2d");
+    ctx2 = canvas2.getContext("2d");
+    ctx.drawImage(image, 0, 0);
+    ctx2.drawImage(canvas,0,0);
+    });
+    image.src = imagePath;
+    loadModel();
+    };
+    
 async function loadModel(){
     const path = "https://uta-ko.github.io/model.json"
     model = await tf.loadModel(path);
-}
-loadModel();
-
-function draw(canvas,canvas2,imagePath){
-    // imageが読み込まれた時の処理
-    const image = new Image();
-    image.addEventListener("load",function (){
-        canvas.width = image.naturalWidth;
-        canvas.height = image.naturalHeight;
-        canvas2.width = image.naturalWidth;
-        canvas2.height = image.naturalHeight;
-        ctx = canvas.getContext("2d");
-        ctx2 = canvas2.getContext("2d");
-        ctx.drawImage(image, 0, 0);
-        ctx2.drawImage(canvas,0,0);
-    });
-    image.src = imagePath;
-}
-
-function crop_img(){
-    // 画像切り取り
-    ctx2 = canvas2.getContext( '2d' );
-    ctx2.drawImage( canvas,
-        posx, posy, size, size, 0, 0, size, size);
-    imgdata = ctx2.getImageData(0,0,size,size);
-
 }
 
 var filter = function(src, dst, width, height, prediction){
@@ -60,14 +48,20 @@ var filter = function(src, dst, width, height, prediction){
 
 
 async function predict(){
-    //var posx = 0;
-    //var posy = 0;
     // 処理開始時間の取得
     start = Date.now();
+    // 繰り返し回数の宣言
+    var forx = Math.floor(canvas.width/res_size);
+    var fory = Math.floor(canvas.height/res_size);
 
-    for ( var i=0; i<canvas.width; i++){
+    var score_p = 0;
+    var score_j = 0;
+    var score_c = 0;
+    var counter = 0;
+    
+    for ( var i=0; i<forx; i++){
         posx = i*(res_size);
-        for ( var j=0; j<canvas.height; j++){
+        for ( var j=0; j<fory; j++){
             posy = j*(res_size);
             centerx = posx + posx/2;
             centery = posy + posy/2;
@@ -106,12 +100,13 @@ async function predict(){
                 var tensor_image = tensor.div(offset).expandDims();
                 array.push(tensor_image)
                 prediction = await model.predict(array).data();
-                document.getElementById('first').innerHTML = 'P :' + prediction[0];
-                document.getElementById('second').innerHTML = 'J : '+prediction[1];
-                document.getElementById('third').innerHTML = 'C :' +prediction[2];
+                score_p += prediction[0];
+                score_j += prediction[1];
+                score_c += prediction[2];
+                
                 filter(src, dst, canvas.width, canvas.height,prediction);
-                //context.putImageData(dstData, 0, 0);
                 ctx2.putImageData(dstData,(posx+(res_size/2)),(posy+(res_size/2)));
+                counter += 1;
             
             }
         }
@@ -119,7 +114,10 @@ async function predict(){
 
     var end = Date.now();
     document.getElementById('time').innerHTML = 'time :' +((end-start)/1000)+ 'sec.';
-    console.log('処理時間 : '+ ((end-start)/1000)+ 'sec.')
+
+    document.getElementById('first').innerHTML = 'P :' + score_p/counter;
+    document.getElementById('second').innerHTML = 'J : '+ score_j/counter;
+    document.getElementById('third').innerHTML = 'C :' + score_c/counter;
         
     }
         
