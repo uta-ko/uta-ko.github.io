@@ -16,12 +16,16 @@ function play(){
     video.play();
 
     //タイマーでフレームレート毎に処理を行う
-    setInterval(function(){
+    timer1 = setInterval(function(){
         // canvasにvideo要素を書き込む
         ctx = cvs.getContext("2d")
         ctx.drawImage(video,0,0);
-        //predict();
+        predict();
     },1000/30);
+    video.addEventListener("ended", function() {
+        clearInterval(timer1);
+        console.log('STOP!')    
+        })
     }
 
 // モデルの読み込み
