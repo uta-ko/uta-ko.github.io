@@ -19,8 +19,8 @@ function play(){
         // canvasにvideo要素を書き込む
         ctx = cvs.getContext("2d")
         ctx.drawImage(video,0,0);
-        predict();
-    },1);
+        //predict();
+    },1000/30);
     }
 
 // モデルの読み込み
