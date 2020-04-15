@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <link rel=”icon” href=“https://uta-ko.github.io/icon_usagi.png”> 
+    <title>video test</title>
+</head>
+  <body>
+      <h1>Video test</h1><br>
+    <div id = 'first'>P :</div>
+    <div id = 'second'>J :</div>
+    <div id = 'third'>C :</div>
+    <div id = 'time'>time :</div>
+    <br>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.5"></script>
+    <button id='play' onclick='play()'>play</button><br>
+    <video controles preload="auto" id='v' poster="j_00.jpg">
+      <source src="j002.webm" type="video/webm">
+      未対応時に表示される文字 
+    </video>
+    <canvas id='c' ></canvas>
+    <script src="video_test_01.js"></script>
+  </body>
+</html>
