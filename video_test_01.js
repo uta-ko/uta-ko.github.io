@@ -20,7 +20,7 @@ function play(){
         ctx = cvs.getContext("2d")
         ctx.drawImage(video,0,0);
         predict();
-    },1000/30);
+    },1);
     }
 
 // モデルの読み込み
