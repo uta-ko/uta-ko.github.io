@@ -14,6 +14,7 @@ window.onload = (ev)=>{
 // playボタンを押したときの処理
 function play(){
     video.play();
+
     //タイマーでフレームレート毎に処理を行う
     setInterval(function(){
         // canvasにvideo要素を書き込む
