@@ -30,8 +30,8 @@ function play(){
     timer1 = setInterval(function(){
         // canvasにvideo要素を書き込む
         ctx.drawImage(video,0,0);
-        //predict();
-    },1000/30
+        predict();
+    },1000/30);
 
     video.addEventListener("ended", function() {
         clearInterval(timer1);
@@ -91,24 +91,24 @@ async function predict(){
             }
             var bright = judge/(size*size*3);
             
-            //輝度値126以下の時 条件分岐
-            if (bright > 126){
-                var array = [];
-                var fp = tf.fromPixels(srcData);
-                var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
-                var offset = tf.scalar(255);
-                var tensor_image = tensor.div(offset).expandDims();
-                array.push(tensor_image)
-                prediction = await model.predict(array).data();
-                score_p += prediction[0];
-                score_j += prediction[1];
-                score_c += prediction[2];
+            //輝度値126以上の時 条件分岐
+            // if (bright > 126){
+            //     var array = [];
+            //     var fp = tf.fromPixels(srcData);
+            //     var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
+            //     var offset = tf.scalar(255);
+            //     var tensor_image = tensor.div(offset).expandDims();
+            //     array.push(tensor_image)
+            //     prediction = await model.predict(array).data();
+            //     score_p += prediction[0];
+            //     score_j += prediction[1];
+            //     score_c += prediction[2];
                 
-                filter(src, dst, canvas.width, canvas.height,prediction);
-                ctx.putImageData(dstData,(posx+(res_size/2)),(posy+(res_size/2)));
-                counter += 1;
+            //     filter(src, dst, canvas.width, canvas.height,prediction);
+            //     ctx.putImageData(dstData,(posx+(res_size/2)),(posy+(res_size/2)));
+            //     counter += 1;
             
-            }
+            // }
         }
     }
 
