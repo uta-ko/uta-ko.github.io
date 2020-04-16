@@ -5,7 +5,7 @@ size = 80;
 //videoのサイズからcanvasのサイズを指定
 cvs.width = video.videoWidth;
 cvs.height = video.videoHeight;
-
+ctx = cvs.getContext("2d")
 // ウィンドウを読み込んだ時にモデルを読み込む
 window.onload = (ev)=>{
     loadModel()
@@ -14,14 +14,14 @@ window.onload = (ev)=>{
 // playボタンを押したときの処理
 function play(){
     video.play();
-
+    
     //タイマーでフレームレート毎に処理を行う
     timer1 = setInterval(function(){
         // canvasにvideo要素を書き込む
-        ctx = cvs.getContext("2d")
+        
         ctx.drawImage(video,0,0);
         predict();
-    },1000/30);
+    },1000/1);
     video.addEventListener("ended", function() {
         clearInterval(timer1);
         console.log('STOP!')    
