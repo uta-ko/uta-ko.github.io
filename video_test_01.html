@@ -5,7 +5,7 @@
     <title>video test</title>
 </head>
   <body>
-      <h1>Video test 4/16</h1><br>
+      <h1>Video test</h1><br>
     <div id = 'first'>P :</div>
     <div id = 'second'>J :</div>
     <div id = 'third'>C :</div>
@@ -13,10 +13,10 @@
     <br>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.5"></script>
     <button id='play' onclick='play()'>play</button><br>
-    <video controles preload="auto" id='v' poster="j_00.jpg" playsinline>
-      <source src="J002.webm" type="video/webm">
+    <video controles preload="auto" id='v' poster="j_00.jpg" playsinline controls >
+      <source src="J002.webm" type="video/webm" >
       <source src="J002.mp4" type="video/mp4">
-      未対応時に表示される文字 
+      <p>動画を再生することができませんでした。</p> 
     </video>
     <canvas id='c' ></canvas>
     <script src="video_test_01.js"></script>
