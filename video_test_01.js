@@ -5,6 +5,8 @@ size = 80;
 //videoのサイズからcanvasのサイズを指定
 cvs.width = video.videoWidth;
 cvs.height = video.videoHeight;
+forx = Math.floor(cvs.width/res_size);
+fory = Math.floor(cvs.height/res_size);
 ctx = cvs.getContext("2d")
 // ウィンドウを読み込んだ時にモデルを読み込む
 window.onload = (ev)=>{
@@ -14,14 +16,23 @@ window.onload = (ev)=>{
 // playボタンを押したときの処理
 function play(){
     video.play();
-    
+
+    //結果出力用キャンバスに画像をセット
+    canvas = document.createElement("canvas")
+    context = canvas.getContext('2d');
+    dstData = context.createImageData(res_size, res_size);
+    dst = dstData.data;
+    canvas.width = res_size;
+    canvas.height = res_size;
+
+
     //タイマーでフレームレート毎に処理を行う
     timer1 = setInterval(function(){
         // canvasにvideo要素を書き込む
-        
         ctx.drawImage(video,0,0);
         predict();
-    },5000);
+    },3000/1);
+
     video.addEventListener("ended", function() {
         clearInterval(timer1);
         console.log('STOP!')    
@@ -52,19 +63,10 @@ async function predict(){
     // 処理開始時間の取得
     start = Date.now();
     // 繰り返し回数の宣言
-    var forx = Math.floor(cvs.width/res_size);
-    var fory = Math.floor(cvs.height/res_size);
-
     var score_p = 0;
     var score_j = 0;
     var score_c = 0;
     var counter = 0;
-    //結果出力用キャンバスに画像をセット
-    canvas = document.createElement("canvas")
-    context = canvas.getContext('2d');
-
-    canvas.width = res_size;
-    canvas.height = res_size;
     
     for ( var i=0; i<forx; i++){
         posx = i*(res_size);
@@ -75,10 +77,8 @@ async function predict(){
         
             //結果画像の生成
             srcData = ctx.getImageData(posx, posy, size, size);
-            dstData = context.createImageData(res_size, res_size);
             src = srcData.data;
-            dst = dstData.data;
-        
+            
             var judge = 0; 
             // 輝度値の取得
             for (var k = 0; k < size; k++) {
@@ -114,8 +114,8 @@ async function predict(){
 
     var end = Date.now();
     document.getElementById('time').innerHTML = 'time :' +((end-start)/1000)+ 'sec.';
-    document.getElementById('first').innerHTML = 'P :' + score_p/counter;
-    document.getElementById('second').innerHTML = 'J : '+ score_j/counter;
-    document.getElementById('third').innerHTML = 'C :' + score_c/counter;
+    //document.getElementById('first').innerHTML = 'P :' + score_p/counter;
+    //document.getElementById('second').innerHTML = 'J : '+ score_j/counter;
+    //document.getElementById('third').innerHTML = 'C :' + score_c/counter;
         
     }
