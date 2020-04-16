@@ -30,8 +30,8 @@ function play(){
     timer1 = setInterval(function(){
         // canvasにvideo要素を書き込む
         ctx.drawImage(video,0,0);
-        predict();
-    },3000/1);
+        //predict();
+    },1000/30
 
     video.addEventListener("ended", function() {
         clearInterval(timer1);
