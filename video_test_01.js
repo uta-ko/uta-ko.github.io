@@ -1,21 +1,21 @@
 // ウィンドウを読み込んだ時にモデルを読み込む
 window.onload = (ev)=>{
     loadModel()
-    
+    video = document.getElementById('v');
+    cvs = document.getElementById('c');
+    res_size = 40;
+    size = 80;
+    //videoのサイズからcanvasのサイズを指定
+    cvs.width = video.videoWidth;
+    cvs.height = video.videoHeight;
+    console.log(cvs.height);
+    document.getElementById('ok').innerHTML = cvs.height;
+    forx = Math.floor(cvs.width/res_size);
+    fory = Math.floor(cvs.height/res_size);
+    ctx = cvs.getContext("2d")
 }
 
-var video = document.getElementById('v');
-var cvs = document.getElementById('c');
-res_size = 40;
-size = 80;
-//videoのサイズからcanvasのサイズを指定
-cvs.width = video.videoWidth;
-cvs.height = video.videoHeight;
-console.log(cvs.height);
-document.getElementById('ok').innerHTML = cvs.height;
-forx = Math.floor(cvs.width/res_size);
-fory = Math.floor(cvs.height/res_size);
-ctx = cvs.getContext("2d")
+
 
 // playボタンを押したときの処理
 function play(){
