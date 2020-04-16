@@ -82,36 +82,36 @@ async function predict(){
             srcData = ctx.getImageData(posx, posy, size, size);
             src = srcData.data;
             
-            // var judge = 0; 
-            // // 輝度値の取得
-            // for (var k = 0; k < size; k++) {
-            //     for (var l = 0; l < size; l++) {
-            //         var idx = (l + k * size) * 4;
-            //         judge += src[idx];
-            //         judge += src[idx+2];
-            //         judge += src[idx+1];
-            //     }
-            // }
-            // var bright = judge/(size*size*3);
+            var judge = 0; 
+            // 輝度値の取得
+            for (var k = 0; k < size; k++) {
+                for (var l = 0; l < size; l++) {
+                    var idx = (l + k * size) * 4;
+                    judge += src[idx];
+                    judge += src[idx+2];
+                    judge += src[idx+1];
+                }
+            }
+            var bright = judge/(size*size*3);
             
             //輝度値126以上の時 条件分岐
-            // if (bright > 126){
-            //     var array = [];
-            //     var fp = tf.fromPixels(srcData);
-            //     var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
-            //     var offset = tf.scalar(255);
-            //     var tensor_image = tensor.div(offset).expandDims();
-            //     array.push(tensor_image)
-            //     prediction = await model.predict(array).data();
-            //     score_p += prediction[0];
-            //     score_j += prediction[1];
-            //     score_c += prediction[2];
+            if (bright > 126){
+                var array = [];
+                var fp = tf.fromPixels(srcData);
+                var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
+                var offset = tf.scalar(255);
+                var tensor_image = tensor.div(offset).expandDims();
+                array.push(tensor_image)
+                prediction = await model.predict(array).data();
+                score_p += prediction[0];
+                score_j += prediction[1];
+                score_c += prediction[2];
                 
-            //     filter(src, dst, canvas.width, canvas.height,prediction);
-            //     ctx.putImageData(dstData,(posx+(res_size/2)),(posy+(res_size/2)));
-            //     counter += 1;
+                filter(src, dst, canvas.width, canvas.height,prediction);
+                ctx.putImageData(dstData,(posx+(res_size/2)),(posy+(res_size/2)));
+                counter += 1;
             
-            // }
+            }
         }
     }
 
