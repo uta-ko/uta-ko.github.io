@@ -79,17 +79,17 @@ async function predict(){
             srcData = ctx.getImageData(posx, posy, size, size);
             src = srcData.data;
             
-            var judge = 0; 
-            // 輝度値の取得
-            for (var k = 0; k < size; k++) {
-                for (var l = 0; l < size; l++) {
-                    var idx = (l + k * size) * 4;
-                    judge += src[idx];
-                    judge += src[idx+2];
-                    judge += src[idx+1];
-                }
-            }
-            var bright = judge/(size*size*3);
+            // var judge = 0; 
+            // // 輝度値の取得
+            // for (var k = 0; k < size; k++) {
+            //     for (var l = 0; l < size; l++) {
+            //         var idx = (l + k * size) * 4;
+            //         judge += src[idx];
+            //         judge += src[idx+2];
+            //         judge += src[idx+1];
+            //     }
+            // }
+            // var bright = judge/(size*size*3);
             
             //輝度値126以上の時 条件分岐
             // if (bright > 126){
