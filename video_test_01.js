@@ -20,8 +20,8 @@ function play(){
         // canvasにvideo要素を書き込む
         
         ctx.drawImage(video,0,0);
-        //predict();
-    },1000/30);
+        predict();
+    },1000/1);
     video.addEventListener("ended", function() {
         clearInterval(timer1);
         console.log('STOP!')    
