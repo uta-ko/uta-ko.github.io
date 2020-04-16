@@ -12,6 +12,7 @@ size = 80;
 cvs.width = video.videoWidth;
 cvs.height = video.videoHeight;
 console.log(cvs.height);
+document.getElementById('ok').innerHTML = cvs.height;
 forx = Math.floor(cvs.width/res_size);
 fory = Math.floor(cvs.height/res_size);
 ctx = cvs.getContext("2d")
