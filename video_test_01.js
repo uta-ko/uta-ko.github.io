@@ -21,7 +21,7 @@ function play(){
         
         ctx.drawImage(video,0,0);
         predict();
-    },1000/1);
+    },5000);
     video.addEventListener("ended", function() {
         clearInterval(timer1);
         console.log('STOP!')    
