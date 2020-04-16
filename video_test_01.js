@@ -15,7 +15,7 @@ window.onload = (ev)=>{
 
 // playボタンを押したときの処理
 function play(){
-    video.play();
+    //video.play();
 
     //結果出力用キャンバスに画像をセット
     canvas = document.createElement("canvas")
