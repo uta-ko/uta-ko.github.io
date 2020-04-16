@@ -1,3 +1,9 @@
+// ウィンドウを読み込んだ時にモデルを読み込む
+window.onload = (ev)=>{
+    loadModel()
+    
+}
+
 var video = document.getElementById('v');
 var cvs = document.getElementById('c');
 res_size = 40;
@@ -9,10 +15,6 @@ console.log(cvs.height);
 forx = Math.floor(cvs.width/res_size);
 fory = Math.floor(cvs.height/res_size);
 ctx = cvs.getContext("2d")
-// ウィンドウを読み込んだ時にモデルを読み込む
-window.onload = (ev)=>{
-    loadModel()
-}
 
 // playボタンを押したときの処理
 function play(){
