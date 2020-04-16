@@ -5,6 +5,7 @@ size = 80;
 //videoのサイズからcanvasのサイズを指定
 cvs.width = video.videoWidth;
 cvs.height = video.videoHeight;
+console.log(cvs.height);
 forx = Math.floor(cvs.width/res_size);
 fory = Math.floor(cvs.height/res_size);
 ctx = cvs.getContext("2d")
