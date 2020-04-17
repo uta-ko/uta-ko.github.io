@@ -126,3 +126,55 @@ async function predict(){
     //document.getElementById('third').innerHTML = 'C :' + score_c/counter;
         
     }
+
+    // 開始ボタン
+    document.getElementById("startbtn").addEventListener("click",() =>{
+        video.play();
+
+        canvas = document.createElement("canvas")
+        context = canvas.getContext('2d');
+        dstData = context.createImageData(res_size, res_size);
+        dst = dstData.data;
+        canvas.width = res_size;
+        canvas.height = res_size;
+        //ctx.drawImage(video,0,0);
+        var stream = cvs.captureStream();
+          //ストリームからMediaRecorderを生成
+          recorder = new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp8'});
+          
+          //ダウンロード用のリンクを準備
+          var anchor = document.getElementById('downloadlink');
+
+          //録画終了時に動画ファイルのダウンロードリンクを生成する処理
+          recorder.ondataavailable = function(e) {
+            var videoBlob = new Blob([e.data], { type: e.data.type });
+            blobUrl = window.URL.createObjectURL(videoBlob);
+          anchor.download = 'movie.webm';
+          anchor.href = blobUrl;
+        anchor.style.display = 'block';
+        }
+
+        // 処理開始時間の取得
+        start = Date.now();
+
+        //録画開始
+        recorder.start();
+        timer1 = setInterval(function(){
+            // canvasにvideo要素を書き込む
+            ctx.drawImage(video,0,0);
+            predict();
+        },33);
+
+        video.addEventListener("ended", function() {
+            clearInterval(timer1);
+            console.log('STOP!')    
+            })
+  
+      })
+
+      // 停止ボタン
+      document.getElementById("endbtn").addEventListener("click",() =>{
+        clearInterval(timer1);
+        recorder.stop();
+        
+      })
