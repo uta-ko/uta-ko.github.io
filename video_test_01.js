@@ -6,17 +6,17 @@ window.onload = (ev)=>{
     res_size = 40;
     size = 80;
     video.load();
-    video.playbackRate = 0.05;
+    video.playbackRate = 1/300;
     //videoのサイズからcanvasのサイズを指定
     video.addEventListener("loadedmetadata",function(){
-    cvs.width = video.videoWidth;
-    cvs.height = video.videoHeight;
-    console.log(cvs.height);
-    document.getElementById('ok').innerHTML = cvs.height;
-    forx = Math.floor(cvs.width/res_size);
-    fory = Math.floor(cvs.height/res_size);
-    ctx = cvs.getContext("2d")
-},false);
+        cvs.width = video.videoWidth;
+        cvs.height = video.videoHeight;
+        console.log(cvs.height);
+        document.getElementById('ok').innerHTML = 'ok';
+        forx = Math.floor(cvs.width/res_size);
+        fory = Math.floor(cvs.height/res_size);
+        ctx = cvs.getContext("2d")
+    },false);
 }
 
 // playボタンを押したときの処理
@@ -37,7 +37,7 @@ function play(){
         // canvasにvideo要素を書き込む
         ctx.drawImage(video,0,0);
         predict();
-    },1000/1);
+    },3000/1);
 
     video.addEventListener("ended", function() {
         clearInterval(timer1);
