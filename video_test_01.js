@@ -6,7 +6,7 @@ window.onload = (ev)=>{
     res_size = 40;
     size = 80;
     video.load();
-    video.playbackRate = 1/300;
+    video.playbackRate = 1/10000;
 
     //videoのサイズからcanvasのサイズを指定
     video.addEventListener("loadedmetadata",function(){
@@ -127,7 +127,7 @@ async function predict(){
         
     }
 
-    // 開始ボタン
+    // 開始ボタンを押したときの処理
     document.getElementById("startbtn").addEventListener("click",() =>{
         video.play();
 
@@ -135,23 +135,25 @@ async function predict(){
         context = canvas.getContext('2d');
         dstData = context.createImageData(res_size, res_size);
         dst = dstData.data;
+
         canvas.width = res_size;
         canvas.height = res_size;
+        
         //ctx.drawImage(video,0,0);
         var stream = cvs.captureStream();
-          //ストリームからMediaRecorderを生成
-          recorder = new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp8'});
+        //ストリームからMediaRecorderを生成
+        recorder = new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp8'});
           
-          //ダウンロード用のリンクを準備
-          var anchor = document.getElementById('downloadlink');
+        //ダウンロード用のリンクを準備
+        var anchor = document.getElementById('downloadlink');
 
-          //録画終了時に動画ファイルのダウンロードリンクを生成する処理
-          recorder.ondataavailable = function(e) {
+        //録画終了時に動画ファイルのダウンロードリンクを生成する処理
+        recorder.ondataavailable = function(e) {
             var videoBlob = new Blob([e.data], { type: e.data.type });
             blobUrl = window.URL.createObjectURL(videoBlob);
-          anchor.download = 'movie.webm';
-          anchor.href = blobUrl;
-        anchor.style.display = 'block';
+            anchor.download = 'movie.webm';
+            anchor.href = blobUrl;
+            anchor.style.display = 'block';
         }
 
         // 処理開始時間の取得
@@ -159,14 +161,14 @@ async function predict(){
 
         //録画開始
         recorder.start();
-        timer1 = setInterval(function(){
+        timer2 = setInterval(function(){
             // canvasにvideo要素を書き込む
             ctx.drawImage(video,0,0);
             predict();
-        },33);
+        },3000);
 
         video.addEventListener("ended", function() {
-            clearInterval(timer1);
+            clearInterval(timer2);
             console.log('STOP!')    
             })
   
@@ -174,7 +176,7 @@ async function predict(){
 
       // 停止ボタン
       document.getElementById("endbtn").addEventListener("click",() =>{
-        clearInterval(timer1);
+        clearInterval(timer2);
         recorder.stop();
         
       })
