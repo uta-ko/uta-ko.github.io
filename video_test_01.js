@@ -7,6 +7,7 @@ window.onload = (ev)=>{
     size = 80;
     video.load();
     video.playbackRate = 1/300;
+
     //videoのサイズからcanvasのサイズを指定
     video.addEventListener("loadedmetadata",function(){
         cvs.width = video.videoWidth;
@@ -31,7 +32,8 @@ function play(){
     canvas.width = res_size;
     canvas.height = res_size;
 
-
+    // 処理開始時間の取得
+    start = Date.now();
     //タイマーでフレームレート毎に処理を行う
     timer1 = setInterval(function(){
         // canvasにvideo要素を書き込む
@@ -66,8 +68,7 @@ var filter = function(src, dst, width, height, prediction){
 
 // 予測処理
 async function predict(){
-    // 処理開始時間の取得
-    start = Date.now();
+    
     // 繰り返し回数の宣言
     var score_p = 0;
     var score_j = 0;
