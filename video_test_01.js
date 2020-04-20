@@ -6,7 +6,6 @@ window.onload = (ev)=>{
     res_size = 40;
     size = 80;
     video.load();
-    video.playbackRate = 1/10000;
 
     //videoのサイズからcanvasのサイズを指定
     video.addEventListener("loadedmetadata",function(){
