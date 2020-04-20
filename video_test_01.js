@@ -193,24 +193,24 @@ async function predict(){
                 await video.pause();
                 await ctx.drawImage(video,0,0);
                 await predict();
-                console.log(ctx);
                 await resctx.drawImage(cvs,0,0);
+                video.addEventListener("ended", function() {
+                    vc=false;
+                    //clearInterval(timer2);
+                    console.log('STOP!')    
+                    })
+          
+              
+        
+              // 停止ボタン
+              document.getElementById("endbtn").addEventListener("click",() =>{
+                vc=false;  
+                //clearInterval(timer2);
+                recorder.stop();
+                
+              })
             }
         };
         run();
 
-        video.addEventListener("ended", function() {
-            vc=false;
-            //clearInterval(timer2);
-            console.log('STOP!')    
-            })
-  
-      })
-
-      // 停止ボタン
-      document.getElementById("endbtn").addEventListener("click",() =>{
-        vc=false;  
-        //clearInterval(timer2);
-        recorder.stop();
-        
-      })
+    });
