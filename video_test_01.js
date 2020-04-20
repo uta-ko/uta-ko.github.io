@@ -20,9 +20,16 @@ window.onload = (ev)=>{
     },false);
 }
 
+function sleep(waitMsec) {
+    var startMsec = new Date();
+   console.log("sleep");
+    // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
+    while (new Date() - startMsec < waitMsec);
+  }
+
 // playボタンを押したときの処理
 function play(){
-    video.play();
+    
 
     //結果出力用キャンバスに画像をセット
     canvas = document.createElement("canvas")
@@ -31,15 +38,17 @@ function play(){
     dst = dstData.data;
     canvas.width = res_size;
     canvas.height = res_size;
-
+    video.play();
     // 処理開始時間の取得
     start = Date.now();
     //タイマーでフレームレート毎に処理を行う
     timer1 = setInterval(function(){
+        video.pause();
         // canvasにvideo要素を書き込む
         ctx.drawImage(video,0,0);
         predict();
-    },3000/1);
+        video.play();
+    },6000/1);
 
     video.addEventListener("ended", function() {
         clearInterval(timer1);
@@ -58,9 +67,9 @@ var filter = function(src, dst, width, height, prediction){
     for (var n = 0; n < height; n++) {
         for (var m = 0; m < width; m++) {
             var idx = (m + n * width) * 4;       
-            dst[idx] = Math.floor(255*prediction[1]);//src[idx];
-            dst[idx + 1] = Math.floor(255*prediction[0]);//src[idx+2];
-            dst[idx + 2] = Math.floor(255*prediction[2]);//src[idx+1];
+            dst[idx] = Math.floor(255*prediction[1]);//r
+            dst[idx + 1] = Math.floor(255*prediction[0]);//g
+            dst[idx + 2] = Math.floor(255*prediction[2]);//b
             dst[idx + 3] = src[idx + 3];
         }
     }
@@ -129,18 +138,23 @@ async function predict(){
 
     // 開始ボタンを押したときの処理
     document.getElementById("startbtn").addEventListener("click",() =>{
-        video.play();
+        
 
         canvas = document.createElement("canvas")
+        rescanvas = document.createElement("canvas")
         context = canvas.getContext('2d');
+        resctx = rescanvas.getContext('2d');
         dstData = context.createImageData(res_size, res_size);
         dst = dstData.data;
 
         canvas.width = res_size;
         canvas.height = res_size;
+        rescanvas.width = cvs.width;
+        rescanvas.height = cvs.height;
         
+
         //ctx.drawImage(video,0,0);
-        var stream = cvs.captureStream();
+        var stream = rescanvas.captureStream();
         //ストリームからMediaRecorderを生成
         recorder = new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp8'});
           
@@ -155,20 +169,39 @@ async function predict(){
             anchor.href = blobUrl;
             anchor.style.display = 'block';
         }
-
+        
         // 処理開始時間の取得
         start = Date.now();
 
         //録画開始
         recorder.start();
-        timer2 = setInterval(function(){
+        //video.play();
+        //timer2 = setInterval(function(){
+        //    video.pause();
             // canvasにvideo要素を書き込む
-            ctx.drawImage(video,0,0);
-            predict();
-        },3000);
+       //     ctx.drawImage(video,0,0);
+       //     predict();
+            //video.play();
+        //},5000);
+        var vc = true;
+       
+        async function run(){
+            video.play()
+            while(vc=true){         
+                await video.play();
+                sleep(34);
+                await video.pause();
+                await ctx.drawImage(video,0,0);
+                await predict();
+                console.log(ctx);
+                await resctx.drawImage(cvs,0,0);
+            }
+        };
+        run();
 
         video.addEventListener("ended", function() {
-            clearInterval(timer2);
+            vc=false;
+            //clearInterval(timer2);
             console.log('STOP!')    
             })
   
@@ -176,7 +209,8 @@ async function predict(){
 
       // 停止ボタン
       document.getElementById("endbtn").addEventListener("click",() =>{
-        clearInterval(timer2);
+        vc=false;  
+        //clearInterval(timer2);
         recorder.stop();
         
       })
