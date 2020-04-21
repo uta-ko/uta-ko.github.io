@@ -4,8 +4,6 @@ window.onload = (ev)=>{
     video = document.getElementById('v');
     cvs = document.getElementById('c');
     document.getElementById("c").style.display='none';
-    document.getElementById("v").style.display='none';
-    //document.getElementById("c2").style.display='none';
     
     res_size = 40;
     size = 80;
@@ -28,14 +26,6 @@ window.onload = (ev)=>{
     },false);
 }
 
-function sleep(waitMsec) {
-    var startMsec = new Date();
-   console.log("sleep");
-    // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
-    while (new Date() - startMsec < waitMsec);
-  }
-
-
 // モデルの読み込み
 async function loadModel(){
     moedllodadtime_s = Date.now();
@@ -47,6 +37,7 @@ async function loadModel(){
 
 // 解析処理
 var filter = function(src, dst, width, height, prediction){    
+
     for (var n = 0; n < height; n++) {
         for (var m = 0; m < width; m++) {
             var idx = (m + n * width) * 4;       
@@ -108,14 +99,17 @@ async function predict(){
                 score_j += prediction[1];
                 score_c += prediction[2];
                 
-                filter(src, dst, canvas.width, canvas.height,prediction);
-                ctx.putImageData(dstData,(posx+(res_size/2)),(posy+(res_size/2)));
+                // 領域塗りつぶし
+                ctx.fillStyle = 'rgb('+Math.floor(255*prediction[1])+','+Math.floor(255*prediction[0])+','+Math.floor(255*prediction[2])+')';
+                ctx.fillRect((posx+(res_size/2)),(posy+(res_size/2)),res_size,res_size);
+
+                //filter(src, dst, canvas.width, canvas.height,prediction);
+                //ctx.putImageData(dstData,(posx+(res_size/2)),(posy+(res_size/2)));
                 counter += 1;
             
             }
         }
     }
-
     
     //document.getElementById('time').innerHTML = 'time :' +((end-start)/1000)+ 'sec.';
     //document.getElementById('first').innerHTML = 'P :' + score_p/counter;
@@ -126,7 +120,7 @@ async function predict(){
 
     // 開始ボタンを押したときの処理
     document.getElementById("startbtn").addEventListener("click",() =>{
-        
+        a = Date.now();
         canvas = document.createElement("canvas");
         rescanvas = document.getElementById('c2');//document.createElement("canvas")
         context = canvas.getContext('2d');
@@ -161,34 +155,27 @@ async function predict(){
 
         //録画開始
         recorder.start();
-        var vc = true;
-        var frameCnt = 0;//video.currentTime;
+        var frameCnt = 0;
         async function run(){
-            video.play();
-            //video.pause();
+            await video.play();
+            setTime = new Date();
             for(var frame = 0; frame<30*30; frame++){
-
-                await video.play();
-                //sleep(33);
-                video.pause();                
-                //console.log('currentTime:'+ video.currentTime);
-                await ctx.drawImage(video,0,0);
-                await predict();
-                await resctx.drawImage(cvs,0,0);
-                console.log('解析時間：'+((Date.now()-start)/1000)+ ' sec.');
-                frameCnt += 1;
-                console.log('Frame count: '+ frameCnt);
-                video.currentTime = frameRate*frame;//Math.max(0, video.currentTime-frameRate);
-                
-                
-            
-            }
+                ctx.drawImage(video,0,0);
+                if (frame%30 == 0){
+                    while (new Date() - setTime < 1000*(frame/30));
+                    //console.log('totaltime: '+ (Date.now()-a)/1000 + "sec.");
+                    await predict();
+                    resctx.drawImage(cvs,0,0);
+                    
+                }
+                }
+                frameCnt += 1; 
         };
         run();
 
         // videoが最後まで再生された時
         video.addEventListener("ended", function() {
-            vc = false;
+            console.log('totaltime: '+ (Date.now()-a)/1000 + "sec.");
             //clearInterval(timer2);
             recorder.stop();
             console.log('STOP!')  
@@ -196,8 +183,8 @@ async function predict(){
 
         // 停止ボタン
         document.getElementById("endbtn").addEventListener("click",() =>{
-            vc = false;  
             recorder.stop();
+            
         })
 
     });
