@@ -5,7 +5,7 @@ window.onload = (ev)=>{
     cvs = document.getElementById('c');
     document.getElementById("c").style.display='none';
     document.getElementById("v").style.display='none';
-    document.getElementById("c2").style.display='none';
+    //document.getElementById("c2").style.display='none';
     
     res_size = 40;
     size = 80;
