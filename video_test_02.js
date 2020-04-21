@@ -112,9 +112,9 @@ async function predict(){
     }
     
     //document.getElementById('time').innerHTML = 'time :' +((end-start)/1000)+ 'sec.';
-    document.getElementById('first').innerHTML = 'P :' + score_p/counter;
-    document.getElementById('second').innerHTML = 'J : '+ score_j/counter;
-    document.getElementById('third').innerHTML = 'C :' + score_c/counter;
+    //document.getElementById('first').innerHTML = 'P :' + score_p/counter;
+    //document.getElementById('second').innerHTML = 'J : '+ score_j/counter;
+    //document.getElementById('third').innerHTML = 'C :' + score_c/counter;
         
     }
 
