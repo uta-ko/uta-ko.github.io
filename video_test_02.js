@@ -100,11 +100,11 @@ async function predict(){
                 score_c += prediction[2];
                 
                 // 領域塗りつぶし
-                ctx.fillStyle = 'rgb('+Math.floor(255*prediction[1])+','+Math.floor(255*prediction[0])+','+Math.floor(255*prediction[2])+')';
-                ctx.fillRect((posx+(res_size/2)),(posy+(res_size/2)),res_size,res_size);
+                //ctx.fillStyle = 'rgb('+Math.floor(255*prediction[1])+','+Math.floor(255*prediction[0])+','+Math.floor(255*prediction[2])+')';
+                //ctx.fillRect((posx+(res_size/2)),(posy+(res_size/2)),res_size,res_size);
 
-                //filter(src, dst, canvas.width, canvas.height,prediction);
-                //ctx.putImageData(dstData,(posx+(res_size/2)),(posy+(res_size/2)));
+                filter(src, dst, canvas.width, canvas.height,prediction);
+                ctx.putImageData(dstData,(posx+(res_size/2)),(posy+(res_size/2)));
                 counter += 1;
             
             }
@@ -112,9 +112,9 @@ async function predict(){
     }
     
     //document.getElementById('time').innerHTML = 'time :' +((end-start)/1000)+ 'sec.';
-    //document.getElementById('first').innerHTML = 'P :' + score_p/counter;
-    //document.getElementById('second').innerHTML = 'J : '+ score_j/counter;
-    //document.getElementById('third').innerHTML = 'C :' + score_c/counter;
+    document.getElementById('first').innerHTML = 'P :' + score_p/counter;
+    document.getElementById('second').innerHTML = 'J : '+ score_j/counter;
+    document.getElementById('third').innerHTML = 'C :' + score_c/counter;
         
     }
 
@@ -176,9 +176,8 @@ async function predict(){
         // videoが最後まで再生された時
         video.addEventListener("ended", function() {
             console.log('totaltime: '+ (Date.now()-a)/1000 + "sec.");
-            //clearInterval(timer2);
             recorder.stop();
-            console.log('STOP!')  
+            console.log('STOP!');  
         })
 
         // 停止ボタン
