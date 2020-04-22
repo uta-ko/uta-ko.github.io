@@ -1,3 +1,4 @@
+/*@cc_on _d=document;eval('var document=_d')@*/
 // ウィンドウを読み込んだ時にモデルを読み込む
 window.onload = (ev)=>{
     loadModel()
@@ -15,7 +16,6 @@ window.onload = (ev)=>{
     video.addEventListener("loadedmetadata",function(){
         cvs.width = video.videoWidth;
         cvs.height = video.videoHeight;
-        console.log(cvs.height);
         document.getElementById('ok').innerHTML = 'ok';
         // 繰り返し回数の宣言
         forx = Math.floor(cvs.width/res_size);
@@ -29,7 +29,7 @@ window.onload = (ev)=>{
 // モデルの読み込み
 async function loadModel(){
     moedllodadtime_s = Date.now();
-    const path = "https://uta-ko.github.io/model.json"
+    const path = 'model.json'//"https://uta-ko.github.io/model.json"
     model = await tf.loadModel(path);
     modelloadtime_e = Date.now();
     console.log('model load time: '+(modelloadtime_e - moedllodadtime_s)/1000);
@@ -37,13 +37,12 @@ async function loadModel(){
 
 // 解析処理
 var filter = function(src, dst, width, height, prediction){    
-
-    for (var n = 0; n < height; n++) {
-        for (var m = 0; m < width; m++) {
+    for (var n = 0; n < height; n = (n+1)|0) {
+        for (var m = 0; m < width; m= (m+1)|0) {
             var idx = (m + n * width) * 4;       
-            dst[idx] = Math.floor(255*prediction[1]);// r
-            dst[idx + 1] = Math.floor(255*prediction[0]);// g
-            dst[idx + 2] = Math.floor(255*prediction[2]);// b
+            dst[idx] = Math.round(255*prediction[1]);// r
+            dst[idx + 1] = Math.round(255*prediction[0]);// g
+            dst[idx + 2] = Math.round(255*prediction[2]);// b
             dst[idx + 3] = src[idx + 3];
         }
     }
@@ -55,14 +54,14 @@ async function predict(){
     // 処理開始時間の取得
     start = Date.now();
 
-    var score_p = 0;
-    var score_j = 0;
-    var score_c = 0;
-    var counter = 0;
+    var score_p = 0.0;
+    var score_j = 0.0;
+    var score_c = 0.0;
+    var counter = 0.0;
     
-    for ( var i=0; i<forx; i++){
+    for ( var i=0; i<forx; i=(i+1)|0){
         posx = i*(res_size);
-        for ( var j=0; j<fory; j++){
+        for ( var j=0; j<fory; j=(j+1)|0){
             posy = j*(res_size);
             centerx = posx + posx/2;
             centery = posy + posy/2;
@@ -74,12 +73,10 @@ async function predict(){
             var judge = 0; 
             // 輝度値の取得
             brightness_s = Date.now();
-            for (var k = 0; k < size; k++) {
-                for (var l = 0; l < size; l++) {
+            for (var k = 0; k < size; k=(k+1)|0) {
+                for (var l = 0; l < size; l=(l+1)|0) {
                     var idx = (l + k * size) * 4;
-                    judge += src[idx];
-                    judge += src[idx+2];
-                    judge += src[idx+1];
+                    judge += src[idx] + src[idx+2] + src[idx+1];
                 }
             }
             var bright = judge/(size*size*3);
@@ -92,37 +89,30 @@ async function predict(){
                 var offset = tf.scalar(255);
                 var tensor_image = tensor.div(offset).expandDims();
                 array.push(tensor_image)
-                
                 prediction = await model.predict(array).data();
-                
                 score_p += prediction[0];
                 score_j += prediction[1];
                 score_c += prediction[2];
                 
                 // 領域塗りつぶし
-                //ctx.fillStyle = 'rgb('+Math.floor(255*prediction[1])+','+Math.floor(255*prediction[0])+','+Math.floor(255*prediction[2])+')';
-                //ctx.fillRect((posx+(res_size/2)),(posy+(res_size/2)),res_size,res_size);
-
-                filter(src, dst, canvas.width, canvas.height,prediction);
-                ctx.putImageData(dstData,(posx+(res_size/2)),(posy+(res_size/2)));
-                counter += 1;
-            
-            }
-        }
+                ctx.fillStyle = 'rgb('+Math.floor(255*prediction[1])+','+Math.floor(255*prediction[0])+','+Math.floor(255*prediction[2])+')';
+                ctx.fillRect((posx+(res_size/2)),(posy+(res_size/2)),res_size,res_size);
+                counter += 1;        
+                        }
+                    }
     }
     
-    //document.getElementById('time').innerHTML = 'time :' +((end-start)/1000)+ 'sec.';
-    //document.getElementById('first').innerHTML = 'P :' + score_p/counter;
-    //document.getElementById('second').innerHTML = 'J : '+ score_j/counter;
-    //document.getElementById('third').innerHTML = 'C :' + score_c/counter;
-        
+    //document.getElementById('time').textContent = String((end-start)/1000)+ 'sec.';
+    document.getElementById('P').textContent = 'P: '+ String(score_p/counter);
+    document.getElementById('J').textContent = 'J: '+ String(score_j/counter);
+    document.getElementById('C').textContent = 'C: '+ String(score_c/counter);
+    
     }
 
     // 開始ボタンを押したときの処理
     document.getElementById("startbtn").addEventListener("click",() =>{
-        a = Date.now();
         canvas = document.createElement("canvas");
-        rescanvas = document.getElementById('c2');//document.createElement("canvas")
+        rescanvas = document.getElementById('c2');
         context = canvas.getContext('2d');
         resctx = rescanvas.getContext('2d');
         dstData = context.createImageData(res_size, res_size);
@@ -158,15 +148,17 @@ async function predict(){
         var frameCnt = 0;
         async function run(){
             await video.play();
+            proccesstime = 0;
             setTime = new Date();
-            for(var frame = 0; frame<30*30; frame++){
+            for(var frame = 0; frame<30*30; frame=(frame+1)|0){
                 ctx.drawImage(video,0,0);
                 if (frame%30 == 0){
                     while (new Date() - setTime < 1000*(frame/30));
-                    //console.log('totaltime: '+ (Date.now()-a)/1000 + "sec.");
                     await predict();
                     resctx.drawImage(cvs,0,0);
-                    
+                    t = (Date.now()- start)/1000;
+                    console.log(t);
+                    proccesstime += t;
                 }
                 }
                 frameCnt += 1; 
@@ -175,9 +167,13 @@ async function predict(){
 
         // videoが最後まで再生された時
         video.addEventListener("ended", function() {
-            console.log('totaltime: '+ (Date.now()-a)/1000 + "sec.");
+            totaltime = (Date.now()-setTime)/1000;
+            console.log('totaltime: '+ totaltime + "sec.");
+            console.log('proccess time:'+ proccesstime);
+            console.log(proccesstime/totaltime*100 + '%');
             recorder.stop();
             console.log('STOP!');  
+            
         })
 
         // 停止ボタン
