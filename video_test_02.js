@@ -5,7 +5,6 @@ window.onload = (ev)=>{
     video = document.getElementById('v');
     cvs = document.getElementById('c');
     document.getElementById("c").style.display='none';
-    
     res_size = 40;
     size = 80;
     frameRate = 1/30;
@@ -16,12 +15,18 @@ window.onload = (ev)=>{
     video.addEventListener("loadedmetadata",function(){
         cvs.width = video.videoWidth;
         cvs.height = video.videoHeight;
-        document.getElementById('ok').innerHTML = 'ok';
+        
         // 繰り返し回数の宣言
         forx = Math.floor(cvs.width/res_size);
         fory = Math.floor(cvs.height/res_size);
-        ctx = cvs.getContext("2d")
-        //console.log(video.duration());
+        ctx = cvs.getContext("2d");
+
+        // 解析範囲切り出し用のcanvasの宣言
+        cvs2 = document.createElement("canvas");
+        cvs2.width = video.videoWidth;
+        cvs2.height = video.videoHeight;
+        ctx2 = cvs2.getContext('2d')
+        document.getElementById('ok').innerHTML = 'ok';
         
     },false);
 }
@@ -58,44 +63,43 @@ async function predict(){
     var score_j = 0.0;
     var score_c = 0.0;
     var counter = 0.0;
-    
+
     for ( var i=0; i<forx; i=(i+1)|0){
         posx = i*(res_size);
         for ( var j=0; j<fory; j=(j+1)|0){
             posy = j*(res_size);
             centerx = posx + posx/2;
             centery = posy + posy/2;
-        
-            //結果画像の生成
-            srcData = ctx.getImageData(posx, posy, size, size);
+
+            //解析範囲の切り出し
+            srcData = ctx2.getImageData(posx, posy, size, size);
             src = srcData.data;
-            
-            var judge = 0; 
+    
+            var judge = 0;
+
             // 輝度値の取得
-            brightness_s = Date.now();
             for (var k = 0; k < size; k=(k+1)|0) {
                 for (var l = 0; l < size; l=(l+1)|0) {
                     var idx = (l + k * size) * 4;
                     judge += src[idx] + src[idx+2] + src[idx+1];
                 }
             }
+
             var bright = judge/(size*size*3);
             
             //輝度値126以上の時 条件分岐
             if (bright > 126){
-                var array = [];
                 var fp = tf.fromPixels(srcData);
                 var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
                 var offset = tf.scalar(255);
                 var tensor_image = tensor.div(offset).expandDims();
-                array.push(tensor_image)
-                prediction = await model.predict(array).data();
+                prediction = await model.predict([tensor_image]).data();
                 score_p += prediction[0];
                 score_j += prediction[1];
                 score_c += prediction[2];
                 
                 // 領域塗りつぶし
-                ctx.fillStyle = 'rgb('+Math.floor(255*prediction[1])+','+Math.floor(255*prediction[0])+','+Math.floor(255*prediction[2])+')';
+                ctx.fillStyle = 'rgb('+String(Math.round(255*prediction[1]))+','+String(Math.round(255*prediction[0]))+','+String(Math.round(255*prediction[2]))+')';
                 ctx.fillRect((posx+(res_size/2)),(posy+(res_size/2)),res_size,res_size);
                 counter += 1;        
                         }
@@ -140,18 +144,18 @@ async function predict(){
             anchor.style.display = 'block';
         }
         
-        // 処理開始時間の取得
-        //start = Date.now();
-
         //録画開始
         recorder.start();
         var frameCnt = 0;
         async function run(){
-            await video.play();
             proccesstime = 0;
+            await video.play();
+
             setTime = new Date();
+
             for(var frame = 0; frame<30*30; frame=(frame+1)|0){
                 ctx.drawImage(video,0,0);
+                ctx2.drawImage(video,0,0);
                 if (frame%30 == 0){
                     while (new Date() - setTime < 1000*(frame/30));
                     await predict();
