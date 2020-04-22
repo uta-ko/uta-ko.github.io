@@ -7,25 +7,29 @@
   <body>
     <center>
       <h1>Video test</h1><br>
-    <div id = 'first'>P :      </div>
-    <div id = 'second'>J :      </div>
-    <div id = 'third'>C :      </div>
-    <div id = 'time'>time :      </div>
+      <div id = "P"></div>
+      <div id = "J"></div>
+      <div id = "C"></div>
+      
+   <!--<div id = 'first'> P:</div>
+   <div id = 'second'> J:</div>
+    <div id = 'third'>C:</div>
+    <div id = 'time'>Time:</div>-->
     <div id = 'ok'>reading...</div>
     <br>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.5"></script>
-    <button id='startbtn' >start</button>
-    <button id='endbtn'>stop</button><br>
+    <button id='startbtn' style="width:100px;height:50px;cursor:pointer">start</button>
+    <button id='endbtn'style="width:100px;height:50px;cursor:pointer">stop</button><br>
     <a herf="#" id="downloadlink" style="display:none;">Download</a><br>
+    </center>
     <video controles preload="metadata" id='v' playsinline >
-      <source src="J002.webm" type="video/webm" >
-      <source src="J002.mp4" type="video/mp4">
+      <source src="P022.webm" type="video/webm" >-->
+      <source src="P022.mp4" type="video/mp4">
       <p>動画を再生することができませんでした。</p> 
     </video>
     <canvas id='c' ></canvas>
     <canvas id='c2' ></canvas>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="video_test_02.js"></script>
-  </center>
+    <script src="video_test_02.js"async></script>
+  
   </body>
 </html>
