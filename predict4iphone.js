@@ -51,7 +51,6 @@ window.onload = () => {
      	video.play();
 	let w = video.offsetWidth ;
     let h = video.offsetHeight ;
-    
 	res_canvas.width = w ;
     res_canvas.height = h ;
     dst_canvas.width = w ;
@@ -77,7 +76,7 @@ window.onload = () => {
 let timer1;
 let getImage = function(){
     async function run(){
-        document.getElementById('test').textContent = "dst_context.drawImage(video,0,0);";
+        //document.getElementById('test').textContent = "dst_context.drawImage(video,0,0);";
         res_context.drawImage(video,0,0);
         document.getElementById('test').textContent = "src_context.drawImage(video,0,0);";
         src_context.drawImage(video,0,0);
