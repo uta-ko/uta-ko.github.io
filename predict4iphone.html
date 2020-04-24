@@ -22,19 +22,24 @@
       display: block;
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.5"></script>
 </head>
 <body>
-  <h1>Rec mode</h1>
-  <a href="index.html">Rear camera</a><br>
+    <h1>Rec mode</h1><br>
+    <div id = "P"></div>
+    <div id = "J"></div>
+    <div id = "C"></div>
+  
 <video id="camera" autoplay playsinline></video><br>
-<canvas id="picture"></canvas><br>
+<canvas id="res_canvas"></canvas><br>
 
 <form>
   <button type="button" id="startbtn" style="width:100px;height:50px;cursor:pointer">開始</button>
   <button type="button" id="endbtn" style="width:100px;height:50px;cursor:pointer">停止</button>
   <button type="button" id="save" style="width:100px;height:50px;cursor:pointer">保存</button>
   <br>
-  <a herf="#" id="downloadlink" style="display:none;">Download</a>
+  <!--<a herf="#" id="downloadlink" style="display:none;">Download</a>-->
+  <a href="index.html">Rear camera</a><br>
 </form>
 
 <script src="predict4iphone.js"></script>
