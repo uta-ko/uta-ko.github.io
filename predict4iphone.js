@@ -64,7 +64,7 @@ window.onload = () => {
     // 繰り返し回数の宣言
     seg_num_x = Math.floor(src_canvas.width/res_size);
     seg_num_y = Math.floor(src_canvas.height/res_size);
-    document.getElementById('loaded').textContent = 'loaded!'
+    document.getElementById('loaded').textContent = 'loaded'
     
       };
     })
