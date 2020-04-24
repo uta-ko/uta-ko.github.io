@@ -3,7 +3,7 @@ let res_canvas = document.getElementById("res_canvas");
 let src_canvas = document.createElement('canvas'); 
 let area_canvas = document.createElement("canvas");
 let dst_canvas = document.createElement("canvas");
-
+let video;
 let cnt = 0;
 let frame_no = 0;
 let imgsrc = [];
@@ -32,7 +32,7 @@ async function loadModel(){
     };
 loadModel();
 window.onload = () => {    
-	const video  = document.querySelector("#camera");
+	video  = document.querySelector("#camera");
 
     /** カメラ設定 */
     const constraints = {
