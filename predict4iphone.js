@@ -7,10 +7,10 @@ let dst_canvas = document.createElement("canvas");
 let cnt = 0;
 let frame_no = 0;
 let imgsrc = [];
-let src_context = src_canvas.getContext("2d");
-let res_context = res_canvas.getContext("2d");
-let area_context = area_canvas.getContext("2d");
-let dst_context = dst_canvas.getContext("2d");
+let src_context
+let res_context
+let area_context
+let dst_context
 
 const res_size = 40; //結果描画サイズ
 const temp_size = 80; //解析対象範囲
@@ -58,6 +58,10 @@ window.onload = () => {
     dst_canvas.height = h ;
     src_canvas.width = w ;
     src_canvas.height = h ;
+    src_context = src_canvas.getContext("2d");
+    res_context = res_canvas.getContext("2d");
+    area_context = area_canvas.getContext("2d");
+    dst_context = dst_canvas.getContext("2d");
     // 繰り返し回数の宣言
     seg_num_x = Math.floor(src_canvas.width/res_size);
     seg_num_y = Math.floor(src_canvas.height/res_size);
