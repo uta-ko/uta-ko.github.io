@@ -77,7 +77,7 @@ let timer1;
 let getImage = function(){
     async function run(){
         startTime = Date.now();
-        res_context.drawImage(video,0,0);
+        dst_context.drawImage(video,0,0);
         src_context.drawImage(video,0,0);
         // 処理開始時間の取得
         start = Date.now();
@@ -145,7 +145,7 @@ let getImage = function(){
                    
 // 開始ボタンを押したときの処理
 document.getElementById("startbtn").onclick= () =>{
-    timer1 = setInterval(getImage,1500);
+    timer1 = setInterval(getImage,1000);
     
 };
 
