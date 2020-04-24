@@ -76,9 +76,8 @@ window.onload = () => {
 let timer1;
 let getImage = function(){
     async function run(){
-        //document.getElementById('test').textContent = "dst_context.drawImage(video,0,0);";
+        startTime = Date.now();
         res_context.drawImage(video,0,0);
-        document.getElementById('test').textContent = "src_context.drawImage(video,0,0);";
         src_context.drawImage(video,0,0);
         // 処理開始時間の取得
         start = Date.now();
@@ -86,7 +85,7 @@ let getImage = function(){
         var score_j = 0.0;
         var score_c = 0.0;
         var counter = 0.0;
-        document.getElementById('test').textContent = "for ( var i=0; i<seg_num_x; i=(i+1)|0){";
+        
         for ( var i=0; i<seg_num_x; i=(i+1)|0){
             posx = i*(res_size);
             for ( var j=0; j<seg_num_y; j=(j+1)|0){
@@ -136,7 +135,8 @@ let getImage = function(){
 
                 // 解析結果画像を更新
                 res_context.drawImage(dst_canvas,0,0);
-                t = (Date.now()- start)/1000;
+                t = (Date.now()- startTime)/1000;
+                document.getElementById('time').textContent = String(t);
                 console.log(t);
                 proccesstime += t;
         };
