@@ -77,7 +77,7 @@ window.onload = () => {
 let timer1;
 let getImage = function(){
     async function run(){
-        document.getElementById('test').textContent = "dst_context.drawImage(video,0,0);";
+        document.getElementById('test').textContent = "dst_context.drawImage(video,0,0)";
         dst_context.drawImage(video,0,0);
         document.getElementById('test').textContent = "src_context.drawImage(video,0,0);";
         src_context.drawImage(video,0,0);
