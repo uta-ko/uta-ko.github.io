@@ -82,7 +82,7 @@ let getImage = function(){
         var score_j = 0.0;
         var score_c = 0.0;
         var counter = 0.0;
-
+        document.getElementById('test').textContent = "for ( var i=0; i<seg_num_x; i=(i+1)|0){";
         for ( var i=0; i<seg_num_x; i=(i+1)|0){
             posx = i*(res_size);
             for ( var j=0; j<seg_num_y; j=(j+1)|0){
@@ -104,7 +104,7 @@ let getImage = function(){
                 }
 
                 var bright = judge/(temp_size*temp_size*3);
-                document.getElementById('test').textContent = "おっけ";
+                
                 //輝度値126以上の時 条件分岐
                 if (bright > 126){
                     var fp = tf.fromPixels(srcData);
