@@ -145,7 +145,7 @@ let getImage = function(){
                    
 // 開始ボタンを押したときの処理
 document.getElementById("startbtn").onclick= () =>{
-    timer1 = setInterval(getImage,1000);
+    timer1 = setInterval(getImage,1500);
     
 };
 
