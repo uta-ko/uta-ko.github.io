@@ -73,7 +73,7 @@ window.onload = () => {
 let timer1;
 let getImage = function(){
     async function run(){
-        document.getElementById('test').textContent = "ok";
+        
         dst_context.drawImage(video,0,0);
         src_context.drawImage(video,0,0);
         // 処理開始時間の取得
@@ -104,7 +104,7 @@ let getImage = function(){
                 }
 
                 var bright = judge/(temp_size*temp_size*3);
-                
+                document.getElementById('test').textContent = "ok";
                 //輝度値126以上の時 条件分岐
                 if (bright > 126){
                     var fp = tf.fromPixels(srcData);
