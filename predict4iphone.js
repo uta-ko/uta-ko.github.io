@@ -65,7 +65,7 @@ window.onload = () => {
     // 繰り返し回数の宣言
     seg_num_x = Math.floor(src_canvas.width/res_size);
     seg_num_y = Math.floor(src_canvas.height/res_size);
-    
+    document.getElementById('loaded').textContent = 'loaded'
     
       };
     })
@@ -77,8 +77,8 @@ window.onload = () => {
 let timer1;
 let getImage = function(){
     async function run(){
-        document.getElementById('test').textContent = "dst_context.drawImage(video,0,0)";
-        dst_context.drawImage(video,0,0);
+        document.getElementById('test').textContent = "dst_context.drawImage(video,0,0);";
+        res_context.drawImage(video,0,0);
         document.getElementById('test').textContent = "src_context.drawImage(video,0,0);";
         src_context.drawImage(video,0,0);
         // 処理開始時間の取得
