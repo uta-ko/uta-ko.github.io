@@ -150,14 +150,8 @@ window.onload = () => {
                 };
         run();
 
-
-
         res_context.drawImage(dst_canvas,0,0);
-        
-        
-        
-    };
-  
+            
     // 開始ボタンを押したときの処理
     document.getElementById("startbtn").onclick= () =>{
       timer1 = setInterval(getImage,1000);
@@ -168,11 +162,10 @@ window.onload = () => {
     document.getElementById("endbtn").addEventListener("click",() =>{
       clearInterval(timer1);
       recorder.stop();
-      
-      
+        
     })
   
-  };
+  
 
 
   /*var stream = canvas.captureStream();
