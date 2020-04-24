@@ -43,11 +43,10 @@ window.onload = () => {
     };
   
     // 開始ボタン
-    document.getElementById("startbtn").addEventListener("click",() =>{
-	
-      var stream = canvas.captureStream();
+    document.getElementById("startbtn").onclick= () =>{
+        ctx2.drawImage(video,0,0);
+        /*var stream = canvas.captureStream();
 	    //ストリームからMediaRecorderを生成
-	    ctx2.drawImage(video,0,0);
 	    recorder = new MediaRecorder(stream,{mimeType:'video/mov'});
 	    //ダウンロード用のリンクを準備
 	    var anchor = document.getElementById('downloadlink');
@@ -60,11 +59,11 @@ window.onload = () => {
       anchor.style.display = 'block';
     }
       //録画開始
-      recorder.start();
+      recorder.start();*/
       timer1 = setInterval(getImage,33);
       
-
-    })
+    };
+    
     // 停止ボタン
     document.getElementById("endbtn").addEventListener("click",() =>{
       clearInterval(timer1);
