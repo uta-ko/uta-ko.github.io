@@ -27,14 +27,13 @@ area_canvas.height = temp_size;
 
 // モデルの読み込み
 async function loadModel(){
-    const path = 'model.json'//"https://uta-ko.github.io/model.json"
+    const path = "https://uta-ko.github.io/model.json"
     model = await tf.loadModel(path);
     };
-
-window.onload = () => {
-    loadModel();
+loadModel();
+window.onload = () => {    
 	const video  = document.querySelector("#camera");
-	
+
     /** カメラ設定 */
     const constraints = {
       audio: false,
