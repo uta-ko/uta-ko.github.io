@@ -45,7 +45,7 @@ window.onload = () => {
     // 開始ボタン
     document.getElementById("startbtn").onclick= () =>{
         ctx2.drawImage(video,0,0);
-        var stream = canvas.captureStream();
+        var stream = video.captureStream();//canvas.captureStream();
 	    //ストリームからMediaRecorderを生成
 	    recorder = new MediaRecorder(stream,{mimeType:'video/mov'});
 	    //ダウンロード用のリンクを準備
