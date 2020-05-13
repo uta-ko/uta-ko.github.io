@@ -106,6 +106,7 @@ document.getElementById("startbtn").onclick = (e) =>{
                 var score_j = 0.0;
                 var score_c = 0.0;
                 var counter = 0.0;
+                
                 // 瞬き検出
                 var blinkJudge = 0;
                 blinkJudgeRange_w = (src_canvas.width-temp_size)/2
