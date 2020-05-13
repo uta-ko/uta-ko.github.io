@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <link rel=”icon” href=“https://uta-ko.github.io/icon_usagi.png”> 
-    <title>video test 0511</title>
+    <title>video test</title>
 </head>
   <body>
     <center>
@@ -17,11 +17,10 @@
     <button id='startbtn' style="width:100px;height:50px;cursor:pointer">start</button>
     <button id='endbtn'style="width:100px;height:50px;cursor:pointer">stop</button><br>
     <a herf="#" id="downloadlink" style="display:none;">Download</a><br>
-    
-    <video controles preload="metadata" id='video' playsinline muted  >
+    <canvas id="graph" style="background-color:black;"></canvas><br>
+    <video controles preload="metadata" id='video' playsinline >
       <source src="P022.webm" type="video/webm" >
       <source src="P022.mp4" type="video/mp4">
-        <source src="P022d.mp4" type="video/mp4">
       <p>動画を再生することができませんでした。</p> 
     </video>
     
