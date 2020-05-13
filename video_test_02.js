@@ -1,11 +1,19 @@
+// 解析結果グラフ表示OK
+// 解析速度1sec/frame
+// 瞬き検出ok
+
 let video = document.getElementById('video');
 let src_canvas = document.getElementById('src_canvas');
 let dst_canvas = document.createElement("canvas");
 let area_canvas = document.createElement("canvas"); 
 let res_canvas = document.getElementById('res_canvas'); 
+let graph_canvas = document.getElementById('graph');
 document.getElementById("src_canvas").style.display='none';
 let res_size = 40;
 let temp_size = 80;
+let graph_h = 200; // グラフの高さ
+let graph_w = 1200; // グラフの横幅
+
 const FPS = 30;
 const FRAME_RATE = 1/FPS; 
 const frameno = FPS*30; // フレーム枚数    
@@ -15,8 +23,10 @@ let src_context;
 let dst_context;
 let area_context;
 let res_context;
+let graph_context;
 let model;
 let posx, posy;
+let range_w = Math.round(graph_w/30); // グラフに描写する横幅
 
 // ウィンドウを読み込んだ時にモデルを読み込む
 window.onload = (ev)=>{
@@ -27,6 +37,8 @@ window.onload = (ev)=>{
     video.onloadedmetadata = (e)=>{
         src_canvas.width = video.videoWidth;
         src_canvas.height = video.videoHeight;
+        graph_canvas.width = graph_w;
+        graph_canvas.height = graph_h;
 
         // 繰り返し回数の宣言
         seg_num_x = Math.floor(src_canvas.width/res_size);
@@ -57,7 +69,8 @@ document.getElementById("startbtn").onclick = (e) =>{
     res_canvas.width = src_canvas.width;
     res_canvas.height = src_canvas.height;
     res_context = res_canvas.getContext('2d');
-
+    graph_context = graph_canvas.getContext("2d");
+    var frame_number = 0;
     dstData = src_context.createImageData(res_size, res_size);
     dst = dstData.data;
 
@@ -93,6 +106,24 @@ document.getElementById("startbtn").onclick = (e) =>{
                 var score_j = 0.0;
                 var score_c = 0.0;
                 var counter = 0.0;
+                // 瞬き検出
+                var blinkJudge = 0;
+                blinkJudgeRange_w = (src_canvas.width-temp_size)/2
+                blinkJudgeRange_h = (src_canvas.height-temp_size)/2
+                
+                var j_srcData = src_context.getImageData(blinkJudgeRange_w,blinkJudgeRange_h,temp_size,temp_size);
+                var j_src = j_srcData.data;
+                for (var k = 0; k < temp_size; k+=1) {
+                    for (var l = 0; l < temp_size; l+=1) {
+                        var idx = (l + k * temp_size) * 4;
+                        blinkJudge += j_src[idx] + j_src[idx+2] + j_src[idx+1];
+                    }
+                }
+                
+                var blinkJudge_res = blinkJudge/(temp_size*temp_size*3);
+                
+                if (blinkJudge_res > 64){
+                   
 
                 for ( var i=0; i<seg_num_x; i=(i+1)|0){
                     posx = i*(res_size);
@@ -131,15 +162,34 @@ document.getElementById("startbtn").onclick = (e) =>{
                             dst_context.fillStyle = 'rgb('+String(Math.round(255*prediction[1]))+','+String(Math.round(255*prediction[0]))+','+String(Math.round(255*prediction[2]))+')';
                             dst_context.fillRect((posx+(res_size/2)),(posy+(res_size/2)),res_size,res_size);
                             counter += 1;        
-                                    }
-                                }
+                                    };
+                        
+                        };
+                        };};
+                        if (blinkJudge_res <= 64){
+                            console.log('blink');
                         }
+                
+                        let res_p = Math.round((score_p/counter)*100)/100;
+                        let res_j = Math.round((score_j/counter)*100)/100;
+                        let res_c = Math.round((score_c/counter)*100)/100;
 
                         // HTMLに数値を表示
-                        document.getElementById('P').textContent = 'P: '+ String(score_p/counter);
-                        document.getElementById('J').textContent = 'J: '+ String(score_j/counter);
-                        document.getElementById('C').textContent = 'C: '+ String(score_c/counter);
+                        document.getElementById('P').textContent = 'P: '+ String(res_p);
+                        document.getElementById('J').textContent = 'J: '+ String(res_j);
+                        document.getElementById('C').textContent = 'C: '+ String(res_c);
 
+                        // グラフを表示
+                        graph_context.fillStyle = 'green';
+                        graph_context.fillRect(frame_number*range_w,graph_h-res_p*graph_h,range_w,res_p*graph_h);
+                        graph_context.fillStyle = 'red';
+                        graph_context.fillRect(frame_number*range_w,(graph_h-res_p*graph_h)-res_j*graph_h,range_w,res_j*graph_h);
+                        graph_context.fillStyle = 'blue';
+                        graph_context.fillRect(frame_number*range_w,0,range_w,res_c*graph_h);
+                        
+
+                        frame_number += 1;
+                        
                         // 解析結果画像を更新
                         res_context.drawImage(dst_canvas,0,0);
                         t = (Date.now()- start)/1000;
