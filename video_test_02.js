@@ -11,8 +11,11 @@ let graph_canvas = document.getElementById('graph');
 document.getElementById("src_canvas").style.display='none';
 let res_size = 40;
 let temp_size = 80;
-let graph_h = 200; // グラフの高さ
-let graph_w = 1200; // グラフの横幅
+let graph_h = 220; // グラフの高さ
+let graph_w = 1260; // グラフの横幅
+let graph_b = graph_h - 20; // グラフの底辺
+let graph_l = 30;
+let graph_r = 1230;  
 
 const FPS = 30;
 const FRAME_RATE = 1/FPS; 
@@ -26,7 +29,7 @@ let res_context;
 let graph_context;
 let model;
 let posx, posy;
-let range_w = Math.round(graph_w/30); // グラフに描写する横幅
+let range_w = Math.round((graph_r-graph_l)/30); // グラフに描写する横幅
 
 // ウィンドウを読み込んだ時にモデルを読み込む
 window.onload = (ev)=>{
@@ -39,6 +42,10 @@ window.onload = (ev)=>{
         src_canvas.height = video.videoHeight;
         graph_canvas.width = graph_w;
         graph_canvas.height = graph_h;
+        graph_context = graph_canvas.getContext("2d");
+        graph_context.font = "15px meirio";
+        graph_context.fillText('time',0, graph_h);
+        graph_context.fillText('sec.',graph_r, graph_h);
 
         // 繰り返し回数の宣言
         seg_num_x = Math.floor(src_canvas.width/res_size);
@@ -69,7 +76,7 @@ document.getElementById("startbtn").onclick = (e) =>{
     res_canvas.width = src_canvas.width;
     res_canvas.height = src_canvas.height;
     res_context = res_canvas.getContext('2d');
-    graph_context = graph_canvas.getContext("2d");
+    
     var frame_number = 0;
     dstData = src_context.createImageData(res_size, res_size);
     dst = dstData.data;
@@ -106,7 +113,6 @@ document.getElementById("startbtn").onclick = (e) =>{
                 var score_j = 0.0;
                 var score_c = 0.0;
                 var counter = 0.0;
-                
                 // 瞬き検出
                 var blinkJudge = 0;
                 blinkJudgeRange_w = (src_canvas.width-temp_size)/2
@@ -167,8 +173,11 @@ document.getElementById("startbtn").onclick = (e) =>{
                         
                         };
                         };};
+                        // 瞬きの時のグラフの描画
                         if (blinkJudge_res <= 64){
                             console.log('blink');
+                            graph_context.fillStyle = 'rgb(0,0,0)';
+                            graph_context.fillRect(frame_number*range_w+graph_l,0,range_w,graph_b);
                         }
                 
                         let res_p = Math.round((score_p/counter)*100)/100;
@@ -181,12 +190,14 @@ document.getElementById("startbtn").onclick = (e) =>{
                         document.getElementById('C').textContent = 'C: '+ String(res_c);
 
                         // グラフを表示
-                        graph_context.fillStyle = 'green';
-                        graph_context.fillRect(frame_number*range_w,graph_h-res_p*graph_h,range_w,res_p*graph_h);
-                        graph_context.fillStyle = 'red';
-                        graph_context.fillRect(frame_number*range_w,(graph_h-res_p*graph_h)-res_j*graph_h,range_w,res_j*graph_h);
-                        graph_context.fillStyle = 'blue';
-                        graph_context.fillRect(frame_number*range_w,0,range_w,res_c*graph_h);
+                        graph_context.fillStyle = 'rgb(0,255,0)';
+                        graph_context.fillRect(frame_number*range_w+graph_l, graph_b-res_p*graph_b, range_w, res_p*graph_b);
+                        graph_context.fillStyle = 'rgb(255,0,0)';
+                        graph_context.fillRect(frame_number*range_w+graph_l,(graph_b-res_p*graph_b)-res_j*graph_b,range_w, res_j*graph_b);
+                        graph_context.fillStyle = 'rgb(0,0,255)';
+                        graph_context.fillRect(frame_number*range_w+graph_l,0,range_w,res_c*graph_b);
+                        graph_context.textAline = 'center';
+                        graph_context.fillText(frame_number,frame_number*range_w+5+graph_l, graph_h);
                         
 
                         frame_number += 1;
