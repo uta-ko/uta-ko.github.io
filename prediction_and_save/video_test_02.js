@@ -64,7 +64,7 @@ window.onload = (ev)=>{
 // モデルの読み込み
 async function loadModel(){
     moedllodadtime_s = Date.now();
-    const path = 'model.json'//"https://uta-ko.github.io/model.json"
+    const path = '../model.json'//"https://uta-ko.github.io/model.json"
     model = await tf.loadModel(path);
     modelloadtime_e = Date.now();
     console.log('model load time: '+(modelloadtime_e - moedllodadtime_s)/1000);
