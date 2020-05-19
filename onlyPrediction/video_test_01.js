@@ -1,215 +1,219 @@
+// 解析結果グラフ表示OK
+// 解析速度1sec/frame
+// 瞬き検出ok
+
+let video = document.getElementById('video');
+let src_canvas = document.getElementById('src_canvas');
+let dst_canvas = document.createElement("canvas");
+let area_canvas = document.createElement("canvas"); 
+let res_canvas = document.getElementById('res_canvas'); 
+let graph_canvas = document.getElementById('graph');
+document.getElementById("src_canvas").style.display='none';
+let res_size = 40;
+let temp_size = 80;
+let graph_h = 170; // グラフの高さ
+let graph_w = 1260; // グラフの横幅
+let graph_b = graph_h - 20; // グラフの底辺
+let graph_l = 30;
+let graph_r = 1230;  
+
+const FPS = 30;
+const FRAME_RATE = 1/FPS; 
+const frameno = FPS*30; // フレーム枚数    
+let seg_num_x;
+let seg_num_y;
+let src_context;
+let dst_context;
+let area_context;
+let res_context;
+let graph_context;
+let model;
+let posx, posy;
+let range_w = Math.round((graph_r-graph_l)/30); // グラフに描写する横幅
+
 // ウィンドウを読み込んだ時にモデルを読み込む
 window.onload = (ev)=>{
     loadModel()
-    video = document.getElementById('v');
-    cvs = document.getElementById('c');
-    res_size = 40;
-    size = 80;
     video.load();
 
     //videoのサイズからcanvasのサイズを指定
-    video.addEventListener("loadedmetadata",function(){
-        cvs.width = video.videoWidth;
-        cvs.height = video.videoHeight;
-        console.log(cvs.height);
-        document.getElementById('ok').innerHTML = 'ok';
-        forx = Math.floor(cvs.width/res_size);
-        fory = Math.floor(cvs.height/res_size);
-        ctx = cvs.getContext("2d")
-    },false);
-}
+    video.onloadedmetadata = (e)=>{
+        src_canvas.width = video.videoWidth;
+        src_canvas.height = video.videoHeight;
+        graph_canvas.width = graph_w;
+        graph_canvas.height = graph_h;
+        graph_context = graph_canvas.getContext("2d");
+        graph_context.font = "15px meirio";
+        graph_context.fillText('time',0, graph_h);
+        graph_context.fillText('sec.',graph_r, graph_h);
 
-function sleep(waitMsec) {
-    var startMsec = new Date();
-   console.log("sleep");
-    // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
-    while (new Date() - startMsec < waitMsec);
-  }
+        // 繰り返し回数の宣言
+        seg_num_x = Math.floor(src_canvas.width/res_size);
+        seg_num_y = Math.floor(src_canvas.height/res_size);
+        src_context = src_canvas.getContext("2d");
 
-// playボタンを押したときの処理
-function play(){
-    
-
-    //結果出力用キャンバスに画像をセット
-    canvas = document.createElement("canvas")
-    context = canvas.getContext('2d');
-    dstData = context.createImageData(res_size, res_size);
-    dst = dstData.data;
-    canvas.width = res_size;
-    canvas.height = res_size;
-    video.play();
-    // 処理開始時間の取得
-    start = Date.now();
-    //タイマーでフレームレート毎に処理を行う
-    timer1 = setInterval(function(){
-        video.pause();
-        // canvasにvideo要素を書き込む
-        ctx.drawImage(video,0,0);
-        predict();
-        video.play();
-    },6000/1);
-
-    video.addEventListener("ended", function() {
-        clearInterval(timer1);
-        console.log('STOP!')    
-        })
-    }
+        // 解析範囲切り出し用のcanvasの宣言
+        dst_canvas.width = video.videoWidth;
+        dst_canvas.height = video.videoHeight;
+        dst_context = dst_canvas.getContext('2d')
+        document.getElementById('video_loaded').innerHTML = 'Loaded';
+        
+    };
+};
 
 // モデルの読み込み
 async function loadModel(){
-    const path = "https://uta-ko.github.io/model.json"
+    moedllodadtime_s = Date.now();
+    const path = 'model.json'//"https://uta-ko.github.io/model.json"
     model = await tf.loadModel(path);
-}
-
-// 解析処理
-var filter = function(src, dst, width, height, prediction){    
-    for (var n = 0; n < height; n++) {
-        for (var m = 0; m < width; m++) {
-            var idx = (m + n * width) * 4;       
-            dst[idx] = Math.floor(255*prediction[1]);//r
-            dst[idx + 1] = Math.floor(255*prediction[0]);//g
-            dst[idx + 2] = Math.floor(255*prediction[2]);//b
-            dst[idx + 3] = src[idx + 3];
-        }
-    }
+    modelloadtime_e = Date.now();
+    console.log('model load time: '+(modelloadtime_e - moedllodadtime_s)/1000);
 };
 
-// 予測処理
-async function predict(){
+// 開始ボタンを押したときの処理
+document.getElementById("startbtn").onclick = (e) =>{
     
-    // 繰り返し回数の宣言
-    var score_p = 0;
-    var score_j = 0;
-    var score_c = 0;
-    var counter = 0;
+    res_canvas.width = src_canvas.width;
+    res_canvas.height = src_canvas.height;
+    res_context = res_canvas.getContext('2d');
     
-    for ( var i=0; i<forx; i++){
-        posx = i*(res_size);
-        for ( var j=0; j<fory; j++){
-            posy = j*(res_size);
-            centerx = posx + posx/2;
-            centery = posy + posy/2;
-        
-            //結果画像の生成
-            srcData = ctx.getImageData(posx, posy, size, size);
-            src = srcData.data;
-            
-            var judge = 0; 
-            // 輝度値の取得
-            for (var k = 0; k < size; k++) {
-                for (var l = 0; l < size; l++) {
-                    var idx = (l + k * size) * 4;
-                    judge += src[idx];
-                    judge += src[idx+2];
-                    judge += src[idx+1];
+    var frame_number = 0;
+    dstData = src_context.createImageData(res_size, res_size);
+    dst = dstData.data;
+
+    async function run(){
+        proccesstime = 0;
+        await video.play();
+        setTime = new Date(); //videoを再生し始めて時間
+        for(var frame = 0; frame<frameno; frame=(frame+1)|0){
+            if (frame%30 == 0){
+                while (Date.now() - setTime < 1000*(frame/30));
+                dst_context.drawImage(video,0,0);
+                src_context.drawImage(video,0,0);
+                // 処理開始時間の取得
+                start = Date.now();
+                var score_p = 0.0;
+                var score_j = 0.0;
+                var score_c = 0.0;
+                var counter = 0.0;
+                // 瞬き検出
+                var blinkJudge = 0;
+                blinkJudgeRange_w = (src_canvas.width-temp_size)/2
+                blinkJudgeRange_h = (src_canvas.height-temp_size)/2
+                
+                var j_srcData = src_context.getImageData(blinkJudgeRange_w,blinkJudgeRange_h,temp_size,temp_size);
+                var j_src = j_srcData.data;
+                for (var k = 0; k < temp_size; k+=1) {
+                    for (var l = 0; l < temp_size; l+=1) {
+                        var idx = (l + k * temp_size) * 4;
+                        blinkJudge += j_src[idx] + j_src[idx+2] + j_src[idx+1];
+                    }
                 }
-            }
-            var bright = judge/(size*size*3);
-            
-            //輝度値126以上の時 条件分岐
-            if (bright > 126){
-                var array = [];
-                var fp = tf.fromPixels(srcData);
-                var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
-                var offset = tf.scalar(255);
-                var tensor_image = tensor.div(offset).expandDims();
-                array.push(tensor_image)
-                prediction = await model.predict(array).data();
-                score_p += prediction[0];
-                score_j += prediction[1];
-                score_c += prediction[2];
                 
-                filter(src, dst, canvas.width, canvas.height,prediction);
-                ctx.putImageData(dstData,(posx+(res_size/2)),(posy+(res_size/2)));
-                counter += 1;
-            
-            }
-        }
-    }
-
-    var end = Date.now();
-    document.getElementById('time').innerHTML = 'time :' +((end-start)/1000)+ 'sec.';
-    //document.getElementById('first').innerHTML = 'P :' + score_p/counter;
-    //document.getElementById('second').innerHTML = 'J : '+ score_j/counter;
-    //document.getElementById('third').innerHTML = 'C :' + score_c/counter;
-        
-    }
-
-    // 開始ボタンを押したときの処理
-    document.getElementById("startbtn").addEventListener("click",() =>{
-        
-
-        canvas = document.createElement("canvas")
-        rescanvas = document.createElement("canvas")
-        context = canvas.getContext('2d');
-        resctx = rescanvas.getContext('2d');
-        dstData = context.createImageData(res_size, res_size);
-        dst = dstData.data;
-
-        canvas.width = res_size;
-        canvas.height = res_size;
-        rescanvas.width = cvs.width;
-        rescanvas.height = cvs.height;
-        
-
-        //ctx.drawImage(video,0,0);
-        var stream = rescanvas.captureStream();
-        //ストリームからMediaRecorderを生成
-        recorder = new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp8'});
-          
-        //ダウンロード用のリンクを準備
-        var anchor = document.getElementById('downloadlink');
-
-        //録画終了時に動画ファイルのダウンロードリンクを生成する処理
-        recorder.ondataavailable = function(e) {
-            var videoBlob = new Blob([e.data], { type: e.data.type });
-            blobUrl = window.URL.createObjectURL(videoBlob);
-            anchor.download = 'movie.webm';
-            anchor.href = blobUrl;
-            anchor.style.display = 'block';
-        }
-        
-        // 処理開始時間の取得
-        start = Date.now();
-
-        //録画開始
-        recorder.start();
-        //video.play();
-        //timer2 = setInterval(function(){
-        //    video.pause();
-            // canvasにvideo要素を書き込む
-       //     ctx.drawImage(video,0,0);
-       //     predict();
-            //video.play();
-        //},5000);
-        var vc = true;
-       
-        async function run(){
-            video.play()
-            while(vc=true){         
-                await video.play();
-                sleep(34);
-                await video.pause();
-                await ctx.drawImage(video,0,0);
-                await predict();
-                await resctx.drawImage(cvs,0,0);
-                video.addEventListener("ended", function() {
-                    vc=false;
-                    //clearInterval(timer2);
-                    console.log('STOP!')    
-                    })
-          
-              
-        
-              // 停止ボタン
-              document.getElementById("endbtn").addEventListener("click",() =>{
-                vc=false;  
-                //clearInterval(timer2);
-                recorder.stop();
+                var blinkJudge_res = blinkJudge/(temp_size*temp_size*3);
                 
-              })
-            }
-        };
-        run();
+                if (blinkJudge_res > 64){
+                   
 
-    });
+                for ( var i=0; i<seg_num_x; i=(i+1)|0){
+                    posx = i*(res_size);
+                    for ( var j=0; j<seg_num_y; j=(j+1)|0){
+                        posy = j*(res_size);
+                        centerx = posx + posx/2;
+                        centery = posy + posy/2;
+
+                        //解析範囲の切り出し
+                        srcData = src_context.getImageData(posx, posy, temp_size, temp_size);
+                        src = srcData.data;
+                        
+                        // 輝度値の取得
+                        var judge = 0;
+                        for (var k = 0; k < temp_size; k=(k+1)|0) {
+                            for (var l = 0; l < temp_size; l=(l+1)|0) {
+                                var idx = (l + k * temp_size) * 4;
+                                judge += src[idx] + src[idx+2] + src[idx+1];
+                            }
+                        }
+
+                        var bright = judge/(temp_size*temp_size*3);
+                        
+                        //輝度値126以上の時 条件分岐
+                        if (bright > 126){
+                            var fp = tf.fromPixels(srcData);
+                            var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
+                            var offset = tf.scalar(255);
+                            var tensor_image = tensor.div(offset).expandDims();
+                            prediction = await model.predict([tensor_image]).data();
+                            score_p += prediction[0];
+                            score_j += prediction[1];
+                            score_c += prediction[2];
+                            
+                            // 領域塗りつぶし
+                            dst_context.fillStyle = 'rgb('+String(Math.round(255*prediction[1]))+','+String(Math.round(255*prediction[0]))+','+String(Math.round(255*prediction[2]))+')';
+                            dst_context.fillRect((posx+(res_size/2)),(posy+(res_size/2)),res_size,res_size);
+                            counter += 1;        
+                                    };
+                        
+                        };
+                        };};
+                        // 瞬きの時のグラフの描画
+                        if (blinkJudge_res <= 64){
+                            console.log('blink');
+                            graph_context.fillStyle = 'rgb(0,0,0)';
+                            graph_context.fillRect(frame_number*range_w+graph_l,0,range_w,graph_b);
+                        }
+                
+                        let res_p = Math.round((score_p/counter)*100)/100;
+                        let res_j = Math.round((score_j/counter)*100)/100;
+                        let res_c = Math.round((score_c/counter)*100)/100;
+
+                        // HTMLに数値を表示
+                        document.getElementById('P').textContent = 'P: '+ String(res_p);
+                        document.getElementById('J').textContent = 'J: '+ String(res_j);
+                        document.getElementById('C').textContent = 'C: '+ String(res_c);
+
+                        // グラフを表示
+                        graph_context.fillStyle = 'rgb(0,255,0)';
+                        graph_context.fillRect(frame_number*range_w+graph_l, graph_b-res_p*graph_b, range_w, res_p*graph_b);
+                        graph_context.fillStyle = 'rgb(255,0,0)';
+                        graph_context.fillRect(frame_number*range_w+graph_l,(graph_b-res_p*graph_b)-res_j*graph_b,range_w, res_j*graph_b);
+                        graph_context.fillStyle = 'rgb(0,0,255)';
+                        graph_context.fillRect(frame_number*range_w+graph_l,0,range_w,res_c*graph_b);
+                        graph_context.textAline = 'center';
+                        graph_context.fillText(frame_number,frame_number*range_w+5+graph_l, graph_h);
+                        
+
+                        frame_number += 1;
+                        
+                        // 解析結果画像を更新
+                        res_context.drawImage(dst_canvas,0,0);
+                        t = (Date.now()- start)/1000;
+                        console.log(t);
+                        proccesstime += t;
+                }
+                }
+            };
+    run();
+
+    // videoが最後まで再生された時
+    video.onended = (e) => {
+        totaltime = (Date.now()-setTime)/1000;
+        console.log('totaltime: '+ totaltime + "sec.");
+        console.log('proccess time:'+ proccesstime);
+        console.log(proccesstime/totaltime*100 + '%');
+        console.log('STOP!');  
+        
+    };
+
+    // 停止ボタン
+    document.getElementById("endbtn").onclick = (e) =>{
+        totaltime = (Date.now()-setTime)/1000;
+        console.log('totaltime: '+ totaltime + "sec.");
+        console.log('proccess time:'+ proccesstime);
+        console.log(proccesstime/totaltime*100 + '%');
+        console.log('STOP!'); 
+         
+        
+    };
+
+};
