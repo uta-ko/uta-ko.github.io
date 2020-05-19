@@ -143,7 +143,7 @@ document.getElementById("startbtn").onclick = (e) =>{
                             var tensor = tf.image.resizeNearestNeighbor(fp,[16, 16]).toFloat();
                             var offset = tf.scalar(255);
                             var tensor_image = tensor.div(offset).expandDims();
-                            prediction = await model.predict([tensor_image]).data();
+                            var prediction = await model.predict([tensor_image]).data();
                             score_p += prediction[0];
                             score_j += prediction[1];
                             score_c += prediction[2];
