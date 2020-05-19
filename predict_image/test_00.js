@@ -3,7 +3,7 @@ var canvas2 = document.getElementById('canvas2');
 const CLASSES = {0:'P', 1:'J', 2:'C'};
 var ctx;
 var ctx2;
-let imagePath = "p_00.jpg";
+let imagePath = "../p_00.jpg";
 var text;
 var size = 80;
 var res_size = 40;
