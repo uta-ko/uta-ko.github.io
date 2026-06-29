@@ -1,0 +1,94 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+	padding: 0;
+	line-height: 1.8;
+	background-color: #f5f5f5;
+	color: #333;
+	font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+#outer {
+	border-top: 4px solid #4c7ed1;
+}
+#inner {
+	margin: 0 auto;
+	max-width: 720px;
+	padding: 0 16px;
+}
+.nav {
+	padding: 16px 4px;
+	font-size: 14px;
+}
+.nav a {
+	color: #4c7ed1;
+	text-decoration: none;
+}
+.nav a:hover {
+	text-decoration: underline;
+}
+#content {
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+	padding: 32px 36px;
+	margin-bottom: 24px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+}
+#content h1 {
+	font-size: 26px;
+	color: #222;
+	margin: 0 0 24px 0;
+	padding-bottom: 12px;
+	border-bottom: 3px solid #4c7ed1;
+}
+#content h2 {
+	font-size: 20px;
+	color: #4c7ed1;
+	margin: 32px 0 12px 0;
+	padding-bottom: 4px;
+	border-bottom: 1px solid #ddd;
+}
+#content h3 {
+	font-size: 17px;
+	margin: 24px 0 8px 0;
+}
+#content p {
+	margin: 1em 0;
+}
+#content ul {
+	margin: 1em 0;
+	padding-left: 1.5em;
+}
+#content li {
+	list-style: disc;
+	margin: 0.3em 0;
+}
+#content a {
+	color: #4c7ed1;
+}
+#content hr {
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin: 28px 0;
+}
+.loading {
+	color: #999;
+}
+footer {
+	text-align: center;
+	font-size: 13px;
+	color: #888;
+	padding: 16px;
+}
+@media screen and (max-width: 767px) {
+	#content {
+		padding: 24px 20px;
+	}
+	#content h1 {
+		font-size: 22px;
+	}
+	#content h2 {
+		font-size: 18px;
+	}
+}
