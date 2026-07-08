@@ -4,6 +4,10 @@ body {
 	padding: 0;
 	line-height: 1.6;
 	background-color: #f5f5f5;
+	background-image: url(./images/bg.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 #outer {
 	border-top: 4px solid #4C7ED1;
@@ -11,9 +15,9 @@ body {
 #inner {
 	margin: 0 auto;
 	width: 640px;
-	background-color: #fff;
+	/* background-color: #fff; */
 	border-radius: 5px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	/* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 }
 .logo {
 	padding-top: 20px;
@@ -27,6 +31,9 @@ ul {
 }
 li {
 	list-style: disc;
+	color: #4C7ED1;
+	padding: 0.2em 0;
+	margin-left: 1em;
 }
 p {
 	margin: 1em 0;
@@ -44,6 +51,11 @@ hr {
 }
 a {
 	font-weight: normal;
+	color: #40649e;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
 }
 h1 {
 	padding: 20px;
@@ -101,10 +113,10 @@ footer {
 	font-size: 15px;
 	height: 100px;
 	text-align: center;
-	background-color: #fff;
+	/* background-color: #fff; */
 	color: #444;
 	border-radius: 5px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	/* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 	padding: 20px;
 	margin-top: 20px;
 }
